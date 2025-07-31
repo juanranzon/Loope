@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOOPE - Keep celebrations looping</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #F8F4FF 0%, #FFF5F8 100%);
+            min-height: 100vh;
+            color: #2D1B4E;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #8B46FF 0%, #A855F7 50%, #C084FC 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 10px 40px rgba(139, 70, 255, 0.2);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 107, 157, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+            pointer-events: none;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            letter-spacing: -0.02em;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-icon {
+            font-size: 32px;
+            animation: rotate 8s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: -0.01em;
+            font-family: inherit;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B9D 0%, #FF8FA3 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-outline {
+            background: rgba(139, 70, 255, 0.1);
+            color: #8B46FF;
+            border: 2px solid #8B46FF;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-outline:hover {
+            background: linear-gradient(135deg, #8B46FF 0%, #A855F7 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(139, 70, 255, 0.3);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(139, 70, 255, 0.03) 0%, rgba(255, 107, 157, 0.03) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 70, 255, 0.05) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, -20px) rotate(180deg); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 72px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #8B46FF 0%, #FF6B9D 50%, #00D4FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: #6B7280;
+            margin-bottom: 40px;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+        
+        .search-bar {
+            max-width: 560px;
+            margin: 40px auto;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 20px 20px 20px 60px;
+            border: 2px solid rgba(139, 70, 255, 0.2);
+            border-radius: 20px;
+            font-size: 16px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: 0 4px 20px rgba(139, 70, 255, 0.1);
+        }
+        
+        .search-input:focus {
+            border-color: #8B46FF;
+            box-shadow: 0 0 0 4px rgba(139, 70, 255, 0.1), 0 8px 30px rgba(139, 70, 255, 0.15);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            background: linear-gradient(135deg, #8B46FF 0%, #FF6B9D 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .filters {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 32px;
+            margin: 40px 0;
+            border-radius: 24px;
+            box-shadow: 0 8px 40px rgba(139, 70, 255, 0.08);
+            border: 1px solid rgba(139, 70, 255, 0.1);
+        }
+        
+        .filters h3 {
+            background: linear-gradient(135deg, #8B46FF 0%, #FF6B9D 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .filter-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 200px;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+            letter-spacing: -0.01em;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            padding: 12px 16px;
+            border: 1px solid rgba(139, 70, 255, 0.2);
+            border-radius: 12px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: #8B46FF;
+            box-shadow: 0 0 0 3px rgba(139, 70, 255, 0.1);
+        }
+        
+        .decorations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px;
+            margin: 40px 0;
+        }
+        
+        .decoration-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(139, 70, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid rgba(139, 70, 255, 0.1);
+            position: relative;
+        }
+        
+        .decoration-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 70, 255, 0.03) 0%, rgba(255, 107, 157, 0.03) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .decoration-card:hover::before {
+            opacity: 1;
+        }
+        
+        .decoration-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(139, 70, 255, 0.15);
+        }
+        
+        .decoration-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #F8F4FF 0%, #FFF5F8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .decoration-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(139, 70, 255, 0.1) 0%, rgba(255, 107, 157, 0.1) 100%);
+        }
+        
+        .decoration-content {
+            padding: 24px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .decoration-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2D1B4E;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+        
+        .decoration-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .tag {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tag.regalo {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(139, 70, 255, 0.15) 100%);
+            color: #0066CC;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .tag.intercambio {
+            background: linear-gradient(135deg, rgba(255, 149, 10, 0.15) 0%, rgba(255, 107, 157, 0.15) 100%);
+            color: #CC6600;
+            border: 1px solid rgba(255, 149, 10, 0.2);
+        }
+        
+        .tag.venta {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(139, 70, 255, 0.15) 100%);
+            color: #8B46FF;
+            border: 1px solid rgba(255, 107, 157, 0.2);
+        }
+        
+        .tag:not(.regalo):not(.intercambio):not(.venta) {
+            background: linear-gradient(135deg, rgba(139, 70, 255, 0.1) 0%, rgba(255, 107, 157, 0.1) 100%);
+            color: #6B46C1;
+            border: 1px solid rgba(139, 70, 255, 0.2);
+        }
+        
+        .decoration-location {
+            color: #6B7280;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(45, 27, 78, 0.5);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 24px;
+        }
+        
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(40px);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 540px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 80px rgba(139, 70, 255, 0.2);
+            border: 1px solid rgba(139, 70, 255, 0.1);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #8B46FF 0%, #FF6B9D 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        
+        .close-btn {
+            background: rgba(139, 70, 255, 0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            color: #8B46FF;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-btn:hover {
+            background: #8B46FF;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+            letter-spacing: -0.01em;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid rgba(139, 70, 255, 0.2);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8B46FF;
+            box-shadow: 0 0 0 3px rgba(139, 70, 255, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .image-upload {
+            border: 2px dashed rgba(139, 70, 255, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(139, 70, 255, 0.03) 0%, rgba(255, 107, 157, 0.03) 100%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .image-upload:hover {
+            border-color: #8B46FF;
+            background: linear-gradient(135deg, rgba(139, 70, 255, 0.05) 0%, rgba(255, 107, 157, 0.05) 100%);
+        }
+        
+        .image-upload input {
+            display: none;
+        }
+        
+        .floating-btn {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #8B46FF 0%, #A855F7 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: 700;
+            box-shadow: 0 8px 32px rgba(139, 70, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 12px 40px rgba(139, 70, 255, 0.4);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 32px 0;
+            color: #9CA3AF;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(139, 70, 255, 0.2) 50%, transparent 100%);
+        }
+        
+        .divider span {
+            padding: 0 20px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .nav {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+            
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                min-width: auto;
+            }
+            
+            .decorations-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .floating-btn {
+                bottom: 24px;
+                right: 24px;
+                width: 56px;
+                height: 56px;
+                font-size: 20px;
+            }
+            
+            .modal-content {
+                padding: 24px;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Selection color */
+        ::selection {
+            background: linear-gradient(135deg, #8B46FF 0%, #FF6B9D 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Datos de ejemplo actualizados para LOOPE
+        const sampleDecorations = [
+            {
+                id: 1,
+                title: "Centro de mesa con flores artificiales",
+                category: "centros-mesa",
+                condition: "usado-una-vez",
+                location: "Medellín, Antioquia",
+                type: "regalo",
+                price: null,
+                availableUntil: "2025-08-15",
+                description: "Hermoso centro de mesa usado en boda, en perfecto estado. Ideal para eventos elegantes.",
+                userId: "user1",
+                userName: "María González",
+                createdAt: "2025-07-20"
+            },
+            {
+                id: 2,
+                title: "Globos dorados y blancos premium",
+                category: "globos",
+                condition: "nuevo",
+                location: "Bogotá, Cundinamarca",
+                type: "intercambio",
+                price: null,
+                availableUntil: "2025-08-01",
+                description: "50 globos dorados y 30 blancos de alta calidad, nunca usados. Perfectos para celebraciones especiales.",
+                userId: "user2",
+                userName: "Carlos Ruiz",
+                createdAt: "2025-07-22"
+            },
+            {
+                id: 3,
+                title: "Guirnalda de papel picado mexicano",
+                category: "guirnaldas",
+                condition: "usado-una-vez",
+                location: "Cali, Valle del Cauca",
+                type: "venta",
+                price: 25000,
+                availableUntil: "2025-08-10",
+                description: "Guirnalda colorida de 10 metros, perfecta para fiestas temáticas. Colores vibrantes y auténticos.",
+                userId: "user3",
+                userName: "Ana López",
+                createdAt: "2025-07-25"
+            },
+            {
+                id: 4,
+                title: "Luces LED de colores mágicas",
+                category: "luces",
+                condition: "nuevo",
+                location: "Barranquilla, Atlántico",
+                type: "regalo",
+                price: null,
+                availableUntil: "2025-08-20",
+                description: "100 luces LED multicolor con efectos especiales, perfectas para crear ambiente mágico en cualquier ocasión.",
+                userId: "user4",
+                userName: "Pedro Martínez",
+                createdAt: "2025-07-23"
+            },
+            {
+                id: 5,
+                title: "Manteles de lino beige elegantes",
+                category: "manteles",
+                condition: "usado-una-vez",
+                location: "Cartagena, Bolívar",
+                type: "intercambio",
+                price: null,
+                availableUntil: "2025-08-05",
+                description: "Conjunto de 6 manteles de lino premium en tono beige, ideales para eventos elegantes y bodas.",
+                userId: "user5",
+                userName: "Sofia Herrera",
+                createdAt: "2025-07-24"
+            },
+            {
+                id: 6,
+                title: "Decoración temática safari completa",
+                category: "otros",
+                condition: "nuevo",
+                location: "Bucaramanga, Santander",
+                type: "venta",
+                price: 45000,
+                availableUntil: "2025-08-12",
+                description: "Set completo de decoración safari: animales de papel, hojas tropicales, banderines y más. Todo incluido para una fiesta perfecta.",
+                userId: "user6",
+                userName: "Miguel Castro",
+                createdAt: "2025-07-26"
+            }
+        ];
+
+        const categories = [
+            { value: "globos", label: "Globos" },
+            { value: "guirnaldas", label: "Guirnaldas" },
+            { value: "centros-mesa", label: "Centros de mesa" },
+            { value: "manteles", label: "Manteles y telas" },
+            { value: "luces", label: "Luces decorativas" },
+            { value: "otros", label: "Otros" }
+        ];
+
+        const cities = [
+            "Bogotá, Cundinamarca",
+            "Medellín, Antioquia", 
+            "Cali, Valle del Cauca",
+            "Barranquilla, Atlántico",
+            "Cartagena, Bolívar",
+            "Bucaramanga, Santander"
+        ];
+
+        // Componente principal
+        function App() {
+            const [user, setUser] = useState(null);
+            const [decorations, setDecorations] = useState(sampleDecorations);
+            const [filteredDecorations, setFilteredDecorations] = useState(sampleDecorations);
+            const [showModal, setShowModal] = useState(false);
+            const [modalType, setModalType] = useState('');
+            const [selectedDecoration, setSelectedDecoration] = useState(null);
+            const [searchTerm, setSearchTerm] = useState('');
+            const [filters, setFilters] = useState({
+                category: '',
+                city: '',
+                type: ''
+            });
+
+            // Filtrar decoraciones
+            useEffect(() => {
+                let filtered = decorations.filter(decoration => {
+                    const matchesSearch = decoration.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                        decoration.description.toLowerCase().includes(searchTerm.toLowerCase());
+                    const matchesCategory = !filters.category || decoration.category === filters.category;
+                    const matchesCity = !filters.city || decoration.location === filters.city;
+                    const matchesType = !filters.type || decoration.type === filters.type;
+                    
+                    return matchesSearch && matchesCategory && matchesCity && matchesType;
+                });
+                setFilteredDecorations(filtered);
+            }, [decorations, searchTerm, filters]);
+
+            const handleLogin = (email, password) => {
+                const mockUser = {
+                    id: 'user1',
+                    name: 'María González',
+                    email: email,
+                    avatar: 'MG',
+                    isLooper: true
+                };
+                setUser(mockUser);
+                setShowModal(false);
+            };
+
+            const handleLogout = () => {
+                setUser(null);
+            };
+
+            const handlePublishDecoration = (decorationData) => {
+                const newDecoration = {
+                    ...decorationData,
+                    id: Date.now(),
+                    userId: user.id,
+                    userName: user.name,
+                    createdAt: new Date().toISOString().split('T')[0]
+                };
+                setDecorations([newDecoration, ...decorations]);
+                setShowModal(false);
+            };
+
+            const openModal = (type, decoration = null) => {
+                setModalType(type);
+                setSelectedDecoration(decoration);
+                setShowModal(true);
+            };
+
+            return (
+                <div className="App">
+                    <Header 
+                        user={user} 
+                        onLogin={() => openModal('login')}
+                        onLogout={handleLogout}
+                        onPublish={() => openModal('publish')}
+                    />
+                    
+                    <Home 
+                        decorations={filteredDecorations}
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                        filters={filters}
+                        setFilters={setFilters}
+                        onDecorationClick={(decoration) => openModal('detail', decoration)}
+                    />
+                    
+                    {showModal && (
+                        <Modal onClose={() => setShowModal(false)}>
+                            {modalType === 'login' && (
+                                <LoginForm onLogin={handleLogin} />
+                            )}
+                            {modalType === 'publish' && user && (
+                                <PublishForm onPublish={handlePublishDecoration} />
+                            )}
+                            {modalType === 'detail' && selectedDecoration && (
+                                <DecorationDetail 
+                                    decoration={selectedDecoration}
+                                    user={user}
+                                    onRequest={() => alert('🎉 ¡Solicitud enviada! El Looper será notificado.')}
+                                />
+                            )}
+                        </Modal>
+                    )}
+                    
+                    {user && (
+                        <button 
+                            className="floating-btn"
+                            onClick={() => openModal('publish')}
+                            title="Loop it! - Publicar decoración"
+                        >
+                            +
+                        </button>
+                    )}
+                </div>
+            );
+        }
+
+        // Componente Header
+        function Header({ user, onLogin, onLogout, onPublish }) {
+            return (
+                <header className="header">
+                    <div className="container">
+                        <nav className="nav">
+                            <div className="logo">
+                                <span className="logo-icon">🔄</span>
+                                LOOPE
+                            </div>
+                            <div className="nav-buttons">
+                                {user ? (
+                                    <>
+                                        <button className="btn btn-primary" onClick={onPublish}>
+                                            ✨ Loop it
+                                        </button>
+                                        <button className="btn btn-secondary">
+                                            👤 {user.name}
+                                            <span style={{fontSize: '10px', opacity: 0.8}}>Looper</span>
+                                        </button>
+                                        <button className="btn btn-secondary" onClick={onLogout}>
+                                            🚪 Salir
+                                        </button>
+                                    </>
+                                ) : (
+                                    <button className="btn btn-primary" onClick={onLogin}>
+                                        🚀 Join the Loop
+                                    </button>
+                                )}
+                            </div>
+                        </nav>
+                    </div>
+                </header>
+            );
+        }
+
+        // Componente Home
+        function Home({ decorations, searchTerm, setSearchTerm, filters, setFilters, onDecorationClick }) {
+            return (
+                <main className="fade-in">
+                    <section className="hero">
+                        <div className="container">
+                            <div className="hero-content">
+                                <h1>Keep celebrations looping</h1>
+                                <p>La plataforma que conecta Loopers para reutilizar decoraciones y crear celebraciones infinitas. Únete al movimiento circular.</p>
+                                
+                                <div className="search-bar">
+                                    <div className="search-icon">🔍</div>
+                                    <input 
+                                        type="text"
+                                        className="search-input"
+                                        placeholder="Buscar decoraciones mágicas..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div className="container">
+                        <div className="filters">
+                            <h3>🎯 Encuentra tu decoración perfecta</h3>
+                            <div className="filter-row">
+                                <div className="filter-group">
+                                    <label>Categoría</label>
+                                    <select 
+                                        value={filters.category}
+                                        onChange={(e) => setFilters({...filters, category: e.target.value})}
+                                    >
+                                        <option value="">Todas las categorías</option>
+                                        {categories.map(cat => (
+                                            <option key={cat.value} value={cat.value}>{cat.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="filter-group">
+                                    <label>Ciudad</label>
+                                    <select 
+                                        value={filters.city}
+                                        onChange={(e) => setFilters({...filters, city: e.target.value})}
+                                    >
+                                        <option value="">Todas las ciudades</option>
+                                        {cities.map(city => (
+                                            <option key={city} value={city}>{city}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="filter-group">
+                                    <label>Tipo de Loop</label>
+                                    <select 
+                                        value={filters.type}
+                                        onChange={(e) => setFilters({...filters, type: e.target.value})}
+                                    >
+                                        <option value="">Todos los tipos</option>
+                                        <option value="regalo">Gift Loop</option>
+                                        <option value="intercambio">Swap Loop</option>
+                                        <option value="venta">Pay Loop</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="decorations-grid">
+                            {decorations.map(decoration => (
+                                <DecorationCard 
+                                    key={decoration.id}
+                                    decoration={decoration}
+                                    onClick={() => onDecorationClick(decoration)}
+                                />
+                            ))}
+                        </div>
+
+                        {decorations.length === 0 && (
+                            <div style={{textAlign: 'center', padding: '80px 0', color: '#9CA3AF'}}>
+                                <div style={{fontSize: '64px', marginBottom: '24px'}}>🔍</div>
+                                <h3 style={{fontSize: '24px', fontWeight: '700', marginBottom: '12px', color: '#374151'}}>
+                                    No encontramos loops aquí
+                                </h3>
+                                <p style={{fontSize: '16px'}}>Prueba ajustando los filtros de búsqueda</p>
+                            </div>
+                        )}
+                    </div>
+                </main>
+            );
+        }
+
+        // Componente DecorationCard
+        function DecorationCard({ decoration, onClick }) {
+            const getTypeLabel = (type) => {
+                const labels = {
+                    regalo: 'Gift Loop',
+                    intercambio: 'Swap Loop',
+                    venta: 'Pay Loop'
+                };
+                return labels[type] || type;
+            };
+
+            const getCategoryIcon = (category) => {
+                const icons = {
+                    globos: '🎈',
+                    guirnaldas: '🎊',
+                    'centros-mesa': '💐',
+                    manteles: '🌸',
+                    luces: '✨',
+                    otros: '🎁'
+                };
+                return icons[category] || '🎁';
+            };
+
+            return (
+                <div className="decoration-card" onClick={onClick}>
+                    <div className="decoration-image">
+                        {getCategoryIcon(decoration.category)}
+                    </div>
+                    <div className="decoration-content">
+                        <h3 className="decoration-title">{decoration.title}</h3>
+                        <div className="decoration-info">
+                            <span className={`tag ${decoration.type}`}>
+                                {getTypeLabel(decoration.type)}
+                            </span>
+                            {decoration.price && (
+                                <span className="tag">${decoration.price.toLocaleString()}</span>
+                            )}
+                            <span className="tag">
+                                {decoration.condition === 'nuevo' ? '✨ Nuevo' : '🔄 Loop usado'}
+                            </span>
+                        </div>
+                        <div className="decoration-location">
+                            📍 {decoration.location}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Componente Modal
+        function Modal({ children, onClose }) {
+            useEffect(() => {
+                const handleEscape = (e) => {
+                    if (e.key === 'Escape') onClose();
+                };
+                document.addEventListener('keydown', handleEscape);
+                return () => document.removeEventListener('keydown', handleEscape);
+            }, [onClose]);
+
+            return (
+                <div className="modal" onClick={onClose}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <div></div>
+                            <button className="close-btn" onClick={onClose}>✕</button>
+                        </div>
+                        {children}
+                    </div>
+                </div>
+            );
+        }
+
+        // Componente LoginForm
+        function LoginForm({ onLogin }) {
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (email && password) {
+                    onLogin(email, password);
+                }
+            };
+
+            const handleGoogleLogin = () => {
+                onLogin('looper@example.com', 'google-auth');
+            };
+
+            return (
+                <div>
+                    <div className="modal-header">
+                        <h2 className="modal-title">🚀 Join the Loop</h2>
+                    </div>
+                    <p style={{textAlign: 'center', marginBottom: '32px', color: '#6B7280'}}>
+                        Conviértete en un <strong>Looper</strong> y comienza a hacer circular las celebraciones
+                    </p>
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="tu@email.com"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Contraseña</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Tu contraseña segura"
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary" style={{width: '100%', padding: '16px'}}>
+                            ✨ Become a Looper
+                        </button>
+                    </form>
+                    
+                    <div className="divider">
+                        <span>o</span>
+                    </div>
+                    
+                    <button 
+                        className="btn btn-outline" 
+                        style={{width: '100%', padding: '16px'}}
+                        onClick={handleGoogleLogin}
+                    >
+                        🚀 Continue with Google
+                    </button>
+                </div>
+            );
+        }
+
+        // Componente PublishForm
+        function PublishForm({ onPublish }) {
+            const [formData, setFormData] = useState({
+                title: '',
+                category: '',
+                condition: 'nuevo',
+                location: '',
+                type: 'regalo',
+                price: '',
+                availableUntil: '',
+                description: ''
+            });
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                const publishData = {
+                    ...formData,
+                    price: formData.type === 'venta' ? parseInt(formData.price) || 0 : null
+                };
+                onPublish(publishData);
+            };
+
+            const handleChange = (field, value) => {
+                setFormData({...formData, [field]: value});
+            };
+
+            return (
+                <div>
+                    <div className="modal-header">
+                        <h2 className="modal-title">✨ Loop it!</h2>
+                    </div>
+                    <p style={{textAlign: 'center', marginBottom: '32px', color: '#6B7280'}}>
+                        Comparte tu decoración y mantén las celebraciones looping
+                    </p>
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label>Título de tu Loop *</label>
+                            <input
+                                type="text"
+                                value={formData.title}
+                                onChange={(e) => handleChange('title', e.target.value)}
+                                placeholder="Ej: Centro de mesa mágico"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Imagen</label>
+                            <div className="image-upload">
+                                <input type="file" accept="image/*" />
+                                <div>
+                                    <div style={{fontSize: '32px', marginBottom: '12px'}}>📸</div>
+                                    <p style={{color: '#8B46FF', fontWeight: '600'}}>Sube una foto mágica</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Categoría *</label>
+                            <select
+                                value={formData.category}
+                                onChange={(e) => handleChange('category', e.target.value)}
+                                required
+                            >
+                                <option value="">Selecciona una categoría</option>
+                                {categories.map(cat => (
+                                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Estado del Loop *</label>
+                            <select
+                                value={formData.condition}
+                                onChange={(e) => handleChange('condition', e.target.value)}
+                                required
+                            >
+                                <option value="nuevo">✨ Nuevo</option>
+                                <option value="usado-una-vez">🔄 Loop usado una vez</option>
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Ciudad *</label>
+                            <select
+                                value={formData.location}
+                                onChange={(e) => handleChange('location', e.target.value)}
+                                required
+                            >
+                                <option value="">Selecciona tu ciudad</option>
+                                {cities.map(city => (
+                                    <option key={city} value={city}>{city}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Tipo de Loop *</label>
+                            <select
+                                value={formData.type}
+                                onChange={(e) => handleChange('type', e.target.value)}
+                                required
+                            >
+                                <option value="regalo">🎁 Gift Loop</option>
+                                <option value="intercambio">🔄 Swap Loop</option>
+                                <option value="venta">💰 Pay Loop</option>
+                            </select>
+                        </div>
+
+                        {formData.type === 'venta' && (
+                            <div className="form-group">
+                                <label>Precio (COP) *</label>
+                                <input
+                                    type="number"
+                                    value={formData.price}
+                                    onChange={(e) => handleChange('price', e.target.value)}
+                                    placeholder="50000"
+                                    required
+                                />
+                            </div>
+                        )}
+
+                        <div className="form-group">
+                            <label>Disponible hasta *</label>
+                            <input
+                                type="date"
+                                value={formData.availableUntil}
+                                onChange={(e) => handleChange('availableUntil', e.target.value)}
+                                min={new Date().toISOString().split('T')[0]}
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Descripción mágica</label>
+                            <textarea
+                                value={formData.description}
+                                onChange={(e) => handleChange('description', e.target.value)}
+                                placeholder="Cuenta la historia de tu decoración y cómo puede hacer mágica la próxima celebración..."
+                                rows="4"
+                            />
+                        </div>
+
+                        <button type="submit" className="btn btn-primary" style={{width: '100%', padding: '16px'}}>
+                            🚀 Loop it now!
+                        </button>
+                    </form>
+                </div>
+            );
+        }
+
+        // Componente DecorationDetail
+        function DecorationDetail({ decoration, user, onRequest }) {
+            const getCategoryIcon = (category) => {
+                const icons = {
+                    globos: '🎈',
+                    guirnaldas: '🎊',
+                    'centros-mesa': '💐',
+                    manteles: '🌸',
+                    luces: '✨',
+                    otros: '🎁'
+                };
+                return icons[category] || '🎁';
+            };
+
+            const getTypeLabel = (type) => {
+                const labels = {
+                    regalo: 'Gift Loop',
+                    intercambio: 'Swap Loop',
+                    venta: 'Pay Loop'
+                };
+                return labels[type] || type;
+            };
+
+            const isOwner = user && user.id === decoration.userId;
+
+            return (
+                <div>
+                    <div className="modal-header">
+                        <h2 className="modal-title">{decoration.title}</h2>
+                    </div>
+                    
+                    <div className="decoration-image" style={{marginBottom: '24px', borderRadius: '16px', height: '160px'}}>
+                        {getCategoryIcon(decoration.category)}
+                    </div>
+
+                    <div className="decoration-info" style={{marginBottom: '24px'}}>
+                        <span className={`tag ${decoration.type}`}>
+                            {getTypeLabel(decoration.type)}
+                        </span>
+                        {decoration.price && (
+                            <span className="tag">${decoration.price.toLocaleString()} COP</span>
+                        )}
+                        <span className="tag">
+                            {decoration.condition === 'nuevo' ? '✨ Nuevo' : '🔄 Loop usado'}
+                        </span>
+                    </div>
+
+                    <div style={{marginBottom: '24px'}}>
+                        <div className="decoration-location" style={{marginBottom: '16px', fontSize: '16px'}}>
+                            📍 {decoration.location}
+                        </div>
+                        
+                        <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: '#6B7280'}}>
+                            📅 <span>Disponible hasta: {decoration.availableUntil}</span>
+                        </div>
+                        
+                        <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', color: '#6B7280'}}>
+                            👤 <span>Looper: <strong>{decoration.userName}</strong></span>
+                        </div>
+                    </div>
+
+                    {decoration.description && (
+                        <div style={{marginBottom: '32px'}}>
+                            <h4 style={{color: '#8B46FF', marginBottom: '12px', fontWeight: '700'}}>Historia del Loop</h4>
+                            <p style={{color: '#6B7280', lineHeight: '1.6', fontSize: '15px'}}>{decoration.description}</p>
+                        </div>
+                    )}
+
+                    {!isOwner && user && (
+                        <button 
+                            className="btn btn-primary" 
+                            style={{width: '100%', padding: '16px', fontSize: '16px'}}
+                            onClick={onRequest}
+                        >
+                            🔄 Join this Loop
+                        </button>
+                    )}
+
+                    {!user && (
+                        <div style={{textAlign: 'center', padding: '24px', background: 'rgba(139, 70, 255, 0.05)', borderRadius: '16px', border: '1px solid rgba(139, 70, 255, 0.1)'}}>
+                            <p style={{color: '#8B46FF', marginBottom: '16px', fontWeight: '600'}}>
+                                🚀 Conviértete en Looper para unirte a este Loop
+                            </p>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Renderizar la aplicación
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
