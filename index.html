@@ -6,11 +6,28 @@
     <title>LOOPE - Keep celebrations looping</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --dark-gradient: linear-gradient(135deg, #434343 0%, #000000 100%);
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-light: #f8fafc;
+            --bg-card: #ffffff;
+            --border-light: #e2e8f0;
+            --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-heavy: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -19,58 +36,49 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #F8F4FF 0%, #FFF5F8 100%);
-            min-height: 100vh;
-            color: #2D1B4E;
+            background: var(--bg-light);
+            color: var(--text-primary);
             line-height: 1.6;
             font-weight: 400;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 24px;
         }
-        
+
+        /* Header Styles */
         .header {
-            background: linear-gradient(135deg, #8B46FF 0%, #A855F7 50%, #C084FC 100%);
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 10px 40px rgba(139, 70, 255, 0.2);
-            backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 0;
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255, 107, 157, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
-            pointer-events: none;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-light);
         }
         
         .nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            position: relative;
-            z-index: 2;
+            gap: 32px;
         }
         
         .logo {
-            font-size: 28px;
-            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             display: flex;
             align-items: center;
             gap: 12px;
             cursor: pointer;
-            letter-spacing: -0.02em;
             transition: transform 0.3s ease;
         }
         
@@ -79,7 +87,7 @@
         }
         
         .logo-icon {
-            font-size: 32px;
+            font-size: 28px;
             animation: rotate 8s linear infinite;
         }
         
@@ -87,278 +95,327 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+
+        .nav-center {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 40px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 50px;
+            border: 2px solid var(--border-light);
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            background: var(--bg-card);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: var(--text-muted);
+        }
         
         .nav-buttons {
             display: flex;
-            gap: 16px;
+            gap: 12px;
             align-items: center;
-            flex-wrap: wrap;
         }
         
         .btn {
             padding: 12px 24px;
             border: none;
-            border-radius: 16px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             font-size: 14px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: -0.01em;
             font-family: inherit;
+            white-space: nowrap;
         }
         
-        .btn::before {
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--bg-card);
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(244, 143, 177, 0.05) 100%);
+            pointer-events: none;
         }
-        
-        .btn:hover::before {
-            opacity: 1;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #FF6B9D 0%, #FF8FA3 100%);
-            color: white;
-            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.3);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.4);
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
-        }
-        
-        .btn-outline {
-            background: rgba(139, 70, 255, 0.1);
-            color: #8B46FF;
-            border: 2px solid #8B46FF;
-            backdrop-filter: blur(10px);
-        }
-        
-        .btn-outline:hover {
-            background: linear-gradient(135deg, #8B46FF 0%, #A855F7 100%);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(139, 70, 255, 0.3);
-        }
-        
-        .hero {
-            text-align: center;
-            padding: 80px 0;
-            background: linear-gradient(135deg, rgba(139, 70, 255, 0.03) 0%, rgba(255, 107, 157, 0.03) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(139, 70, 255, 0.05) 0%, transparent 70%);
-            animation: float 20s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-20px, -20px) rotate(180deg); }
-        }
-        
+
         .hero-content {
             position: relative;
             z-index: 2;
         }
         
         .hero h1 {
-            font-size: clamp(48px, 8vw, 72px);
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(40px, 6vw, 64px);
             font-weight: 800;
-            background: linear-gradient(135deg, #8B46FF 0%, #FF6B9D 50%, #00D4FF 100%);
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero .highlight {
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 24px;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
         }
         
         .hero p {
             font-size: 20px;
-            color: #6B7280;
+            color: var(--text-secondary);
             margin-bottom: 40px;
-            max-width: 640px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            font-weight: 400;
         }
-        
-        .search-bar {
-            max-width: 560px;
-            margin: 40px auto;
-            position: relative;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 20px 20px 20px 60px;
-            border: 2px solid rgba(139, 70, 255, 0.2);
-            border-radius: 20px;
-            font-size: 16px;
-            outline: none;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
-            font-family: inherit;
-            box-shadow: 0 4px 20px rgba(139, 70, 255, 0.1);
-        }
-        
-        .search-input:focus {
-            border-color: #8B46FF;
-            box-shadow: 0 0 0 4px rgba(139, 70, 255, 0.1), 0 8px 30px rgba(139, 70, 255, 0.15);
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            background: linear-gradient(135deg, #8B46FF 0%, #FF6B9D 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .filters {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            padding: 32px;
-            margin: 40px 0;
-            border-radius: 24px;
-            box-shadow: 0 8px 40px rgba(139, 70, 255, 0.08);
-            border: 1px solid rgba(139, 70, 255, 0.1);
-        }
-        
-        .filters h3 {
-            background: linear-gradient(135deg, #8B46FF 0%, #FF6B9D 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 24px;
-            font-weight: 700;
-            font-size: 18px;
-        }
-        
-        .filter-row {
+
+        .hero-cta {
             display: flex;
-            gap: 20px;
+            justify-content: center;
+            gap: 16px;
             flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        /* Categories Strip */
+        .categories-strip {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            padding: 20px 0;
+            overflow-x: auto;
+        }
+
+        .categories-scroll {
+            display: flex;
+            gap: 24px;
+            min-width: max-content;
+            padding: 0 24px;
+        }
+
+        .category-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .category-pill:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .category-pill.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 60px 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 12px;
             align-items: center;
         }
-        
+
+        .view-toggle {
+            display: flex;
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .view-btn {
+            padding: 8px 12px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .view-btn.active {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-light);
+        }
+
+        /* Filters */
+        .filters-bar {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
         .filter-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            min-width: 200px;
         }
-        
+
         .filter-group label {
             font-weight: 600;
-            color: #374151;
+            color: var(--text-primary);
             font-size: 14px;
-            letter-spacing: -0.01em;
         }
-        
+
         .filter-group select,
         .filter-group input {
             padding: 12px 16px;
-            border: 1px solid rgba(139, 70, 255, 0.2);
-            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
             font-size: 14px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            background: var(--bg-card);
             transition: all 0.3s ease;
             font-family: inherit;
         }
-        
+
         .filter-group select:focus,
         .filter-group input:focus {
             outline: none;
-            border-color: #8B46FF;
-            box-shadow: 0 0 0 3px rgba(139, 70, 255, 0.1);
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-        
-        .decorations-grid {
+
+        /* Product Grid */
+        .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 32px;
-            margin: 40px 0;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
         }
-        
-        .decoration-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 8px 40px rgba(139, 70, 255, 0.08);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             cursor: pointer;
-            border: 1px solid rgba(139, 70, 255, 0.1);
-            position: relative;
+            box-shadow: var(--shadow-light);
         }
-        
-        .decoration-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(139, 70, 255, 0.03) 0%, rgba(255, 107, 157, 0.03) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(102, 126, 234, 0.2);
         }
-        
-        .decoration-card:hover::before {
-            opacity: 1;
-        }
-        
-        .decoration-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(139, 70, 255, 0.15);
-        }
-        
-        .decoration-image {
+
+        .product-image {
             width: 100%;
             height: 200px;
-            background: linear-gradient(135deg, #F8F4FF 0%, #FFF5F8 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -366,319 +423,425 @@
             position: relative;
             overflow: hidden;
         }
-        
-        .decoration-image::before {
-            content: '';
+
+        .product-badge {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(139, 70, 255, 0.1) 0%, rgba(255, 107, 157, 0.1) 100%);
-        }
-        
-        .decoration-content {
-            padding: 24px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .decoration-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #2D1B4E;
-            margin-bottom: 12px;
-            letter-spacing: -0.01em;
-            line-height: 1.3;
-        }
-        
-        .decoration-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-        
-        .tag {
-            padding: 6px 12px;
+            top: 12px;
+            left: 12px;
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
-            letter-spacing: -0.01em;
-            backdrop-filter: blur(10px);
+            color: white;
         }
-        
-        .tag.regalo {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(139, 70, 255, 0.15) 100%);
-            color: #0066CC;
-            border: 1px solid rgba(0, 212, 255, 0.2);
+
+        .badge-gift {
+            background: var(--success-gradient);
         }
-        
-        .tag.intercambio {
-            background: linear-gradient(135deg, rgba(255, 149, 10, 0.15) 0%, rgba(255, 107, 157, 0.15) 100%);
-            color: #CC6600;
-            border: 1px solid rgba(255, 149, 10, 0.2);
+
+        .badge-swap {
+            background: var(--warning-gradient);
         }
-        
-        .tag.venta {
-            background: linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(139, 70, 255, 0.15) 100%);
-            color: #8B46FF;
-            border: 1px solid rgba(255, 107, 157, 0.2);
+
+        .badge-sale {
+            background: var(--secondary-gradient);
         }
-        
-        .tag:not(.regalo):not(.intercambio):not(.venta) {
-            background: linear-gradient(135deg, rgba(139, 70, 255, 0.1) 0%, rgba(255, 107, 157, 0.1) 100%);
-            color: #6B46C1;
-            border: 1px solid rgba(139, 70, 255, 0.2);
+
+        .product-heart {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
         }
-        
-        .decoration-location {
-            color: #6B7280;
+
+        .product-heart:hover {
+            background: var(--secondary-gradient);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .product-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .meta-tag {
+            padding: 4px 8px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .product-location {
+            color: var(--text-muted);
             font-size: 14px;
             display: flex;
             align-items: center;
             gap: 6px;
-            font-weight: 500;
+            margin-bottom: 16px;
         }
-        
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .user-avatar {
+            width: 24px;
+            height: 24px;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: 700;
+            box-shadow: var(--shadow-heavy);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 25px 50px -5px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Modal Styles */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(45, 27, 78, 0.5);
-            backdrop-filter: blur(20px);
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             padding: 24px;
         }
-        
+
         .modal-content {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(40px);
-            border-radius: 24px;
+            background: var(--bg-card);
+            border-radius: 16px;
             padding: 32px;
             max-width: 540px;
             width: 100%;
-            max-height: 85vh;
+            max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 20px 80px rgba(139, 70, 255, 0.2);
-            border: 1px solid rgba(139, 70, 255, 0.1);
+            box-shadow: var(--shadow-heavy);
+            position: relative;
         }
-        
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
         }
-        
+
         .modal-title {
+            font-family: 'Poppins', sans-serif;
             font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #8B46FF 0%, #FF6B9D 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.02em;
+            font-weight: 700;
+            color: var(--text-primary);
         }
-        
+
         .close-btn {
-            background: rgba(139, 70, 255, 0.1);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
             cursor: pointer;
-            color: #8B46FF;
-            font-size: 18px;
+            color: var(--text-muted);
+            font-size: 16px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        
+
         .close-btn:hover {
-            background: #8B46FF;
+            background: var(--secondary-gradient);
             color: white;
-            transform: scale(1.1);
+            border-color: transparent;
         }
-        
+
+        /* Form Styles */
         .form-group {
             margin-bottom: 24px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #374151;
+            color: var(--text-primary);
             font-size: 14px;
-            letter-spacing: -0.01em;
         }
-        
+
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 16px;
-            border: 1px solid rgba(139, 70, 255, 0.2);
-            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
             font-size: 16px;
             font-family: inherit;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            background: var(--bg-card);
             transition: all 0.3s ease;
         }
-        
+
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #8B46FF;
-            box-shadow: 0 0 0 3px rgba(139, 70, 255, 0.1);
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-        
+
         .form-group textarea {
             resize: vertical;
             min-height: 120px;
         }
-        
+
         .image-upload {
-            border: 2px dashed rgba(139, 70, 255, 0.3);
-            border-radius: 16px;
+            border: 2px dashed var(--border-light);
+            border-radius: 12px;
             padding: 40px;
             text-align: center;
-            background: linear-gradient(135deg, rgba(139, 70, 255, 0.03) 0%, rgba(255, 107, 157, 0.03) 100%);
+            background: var(--bg-light);
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .image-upload:hover {
-            border-color: #8B46FF;
-            background: linear-gradient(135deg, rgba(139, 70, 255, 0.05) 0%, rgba(255, 107, 157, 0.05) 100%);
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
         }
-        
+
         .image-upload input {
             display: none;
         }
-        
-        .floating-btn {
-            position: fixed;
-            bottom: 32px;
-            right: 32px;
-            width: 64px;
-            height: 64px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #8B46FF 0%, #A855F7 100%);
-            color: white;
-            border: none;
-            cursor: pointer;
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 0;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+
+        .empty-state h3 {
             font-size: 24px;
             font-weight: 700;
-            box-shadow: 0 8px 32px rgba(139, 70, 255, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
         }
-        
-        .floating-btn:hover {
-            transform: scale(1.1) translateY(-2px);
-            box-shadow: 0 12px 40px rgba(139, 70, 255, 0.4);
+
+        .empty-state p {
+            font-size: 16px;
         }
-        
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 32px 0;
-            color: #9CA3AF;
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-center {
+                max-width: 400px;
+                margin: 0 20px;
+            }
         }
-        
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(139, 70, 255, 0.2) 50%, transparent 100%);
-        }
-        
-        .divider span {
-            padding: 0 20px;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
+
         @media (max-width: 768px) {
             .container {
                 padding: 0 16px;
             }
-            
-            .hero {
-                padding: 60px 0;
-            }
-            
+
             .nav {
                 flex-direction: column;
-                text-align: center;
                 gap: 16px;
             }
-            
-            .filter-row {
+
+            .nav-center {
+                order: 2;
+                margin: 0;
+                max-width: none;
+            }
+
+            .nav-buttons {
+                order: 1;
+            }
+
+            .hero {
+                padding: 60px 0 40px;
+            }
+
+            .hero-cta {
                 flex-direction: column;
-                align-items: stretch;
+                align-items: center;
             }
-            
-            .filter-group {
-                min-width: auto;
+
+            .categories-scroll {
+                padding: 0 16px;
             }
-            
-            .decorations-grid {
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filters-grid {
                 grid-template-columns: 1fr;
-                gap: 24px;
             }
-            
-            .floating-btn {
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fab {
                 bottom: 24px;
                 right: 24px;
                 width: 56px;
                 height: 56px;
                 font-size: 20px;
             }
-            
+
             .modal-content {
                 padding: 24px;
+                margin: 16px;
             }
         }
-        
+
+        /* Animations */
         .fade-in {
-            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.6s ease-out;
         }
-        
+
         @keyframes fadeIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(30px);
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-            to { 
-                opacity: 1; 
+            to {
+                opacity: 1;
                 transform: translateY(0);
             }
         }
-        
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
+
+        .slide-up {
+            animation: slideUp 0.4s ease-out;
         }
-        
-        /* Selection color */
-        ::selection {
-            background: linear-gradient(135deg, #8B46FF 0%, #FF6B9D 100%);
-            color: white;
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Utilities */
+        .text-gradient {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 32px 0;
+            color: var(--text-muted);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-light);
+        }
+
+        .divider span {
+            padding: 0 20px;
+            font-weight: 500;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -688,39 +851,43 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // Datos de ejemplo actualizados para LOOPE
+        // Sample data - updated for LOOPE
         const sampleDecorations = [
             {
                 id: 1,
-                title: "Centro de mesa con flores artificiales",
+                title: "Centro de mesa con flores artificiales premium",
                 category: "centros-mesa",
                 condition: "usado-una-vez",
                 location: "Medellín, Antioquia",
                 type: "regalo",
                 price: null,
                 availableUntil: "2025-08-15",
-                description: "Hermoso centro de mesa usado en boda, en perfecto estado. Ideal para eventos elegantes.",
+                description: "Hermoso centro de mesa usado en boda, en perfecto estado. Ideal para eventos elegantes y sofisticados.",
                 userId: "user1",
                 userName: "María González",
-                createdAt: "2025-07-20"
+                createdAt: "2025-07-20",
+                likes: 24,
+                isLiked: false
             },
             {
                 id: 2,
-                title: "Globos dorados y blancos premium",
+                title: "Globos dorados y blancos de alta calidad",
                 category: "globos",
                 condition: "nuevo",
                 location: "Bogotá, Cundinamarca",
                 type: "intercambio",
                 price: null,
                 availableUntil: "2025-08-01",
-                description: "50 globos dorados y 30 blancos de alta calidad, nunca usados. Perfectos para celebraciones especiales.",
+                description: "50 globos dorados y 30 blancos premium, nunca usados. Perfectos para celebraciones especiales.",
                 userId: "user2",
                 userName: "Carlos Ruiz",
-                createdAt: "2025-07-22"
+                createdAt: "2025-07-22",
+                likes: 18,
+                isLiked: true
             },
             {
                 id: 3,
-                title: "Guirnalda de papel picado mexicano",
+                title: "Guirnalda de papel picado mexicano auténtico",
                 category: "guirnaldas",
                 condition: "usado-una-vez",
                 location: "Cali, Valle del Cauca",
@@ -730,59 +897,68 @@
                 description: "Guirnalda colorida de 10 metros, perfecta para fiestas temáticas. Colores vibrantes y auténticos.",
                 userId: "user3",
                 userName: "Ana López",
-                createdAt: "2025-07-25"
+                createdAt: "2025-07-25",
+                likes: 31,
+                isLiked: false
             },
             {
                 id: 4,
-                title: "Luces LED de colores mágicas",
+                title: "Luces LED de colores con efectos mágicos",
                 category: "luces",
                 condition: "nuevo",
                 location: "Barranquilla, Atlántico",
                 type: "regalo",
                 price: null,
                 availableUntil: "2025-08-20",
-                description: "100 luces LED multicolor con efectos especiales, perfectas para crear ambiente mágico en cualquier ocasión.",
+                description: "100 luces LED multicolor con múltiples efectos, perfectas para crear ambiente mágico.",
                 userId: "user4",
                 userName: "Pedro Martínez",
-                createdAt: "2025-07-23"
+                createdAt: "2025-07-23",
+                likes: 42,
+                isLiked: true
             },
             {
                 id: 5,
-                title: "Manteles de lino beige elegantes",
+                title: "Manteles de lino beige elegantes premium",
                 category: "manteles",
                 condition: "usado-una-vez",
                 location: "Cartagena, Bolívar",
                 type: "intercambio",
                 price: null,
                 availableUntil: "2025-08-05",
-                description: "Conjunto de 6 manteles de lino premium en tono beige, ideales para eventos elegantes y bodas.",
+                description: "Conjunto de 6 manteles de lino premium en tono beige, ideales para eventos elegantes.",
                 userId: "user5",
-                userName: "Sofia Herrera",
-                createdAt: "2025-07-24"
+                userName: "Sofía Herrera",
+                createdAt: "2025-07-24",
+                likes: 15,
+                isLiked: false
             },
             {
                 id: 6,
-                title: "Decoración temática safari completa",
+                title: "Kit completo decoración temática safari",
                 category: "otros",
                 condition: "nuevo",
                 location: "Bucaramanga, Santander",
                 type: "venta",
                 price: 45000,
                 availableUntil: "2025-08-12",
-                description: "Set completo de decoración safari: animales de papel, hojas tropicales, banderines y más. Todo incluido para una fiesta perfecta.",
+                description: "Set completo: animales de papel, hojas tropicales, banderines y más. Todo incluido.",
                 userId: "user6",
                 userName: "Miguel Castro",
-                createdAt: "2025-07-26"
+                createdAt: "2025-07-26",
+                likes: 27,
+                isLiked: false
             }
         ];
 
         const categories = [
-            { value: "globos", label: "Globos" },
-            { value: "guirnaldas", label: "Guirnaldas" },
-            { value: "centros-mesa", label: "Centros de mesa" },
-            { value: "manteles", label: "Manteles y telas" },
-            { value: "luces", label: "Luces decorativas" },
-            { value: "otros", label: "Otros" }
+            { value: "", label: "Todas las categorías", icon: "🎉" },
+            { value: "globos", label: "Globos", icon: "🎈" },
+            { value: "guirnaldas", label: "Guirnaldas", icon: "🎊" },
+            { value: "centros-mesa", label: "Centros de mesa", icon: "💐" },
+            { value: "manteles", label: "Manteles", icon: "🌸" },
+            { value: "luces", label: "Luces", icon: "✨" },
+            { value: "otros", label: "Otros", icon: "🎁" }
         ];
 
         const cities = [
@@ -794,7 +970,7 @@
             "Bucaramanga, Santander"
         ];
 
-        // Componente principal
+        // Main App Component
         function App() {
             const [user, setUser] = useState(null);
             const [decorations, setDecorations] = useState(sampleDecorations);
@@ -808,8 +984,9 @@
                 city: '',
                 type: ''
             });
+            const [viewMode, setViewMode] = useState('grid');
 
-            // Filtrar decoraciones
+            // Filter decorations
             useEffect(() => {
                 let filtered = decorations.filter(decoration => {
                     const matchesSearch = decoration.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -845,10 +1022,26 @@
                     id: Date.now(),
                     userId: user.id,
                     userName: user.name,
-                    createdAt: new Date().toISOString().split('T')[0]
+                    createdAt: new Date().toISOString().split('T')[0],
+                    likes: 0,
+                    isLiked: false
                 };
                 setDecorations([newDecoration, ...decorations]);
                 setShowModal(false);
+            };
+
+            const handleLike = (decorationId) => {
+                setDecorations(prevDecorations => 
+                    prevDecorations.map(decoration => 
+                        decoration.id === decorationId 
+                            ? { 
+                                ...decoration, 
+                                isLiked: !decoration.isLiked,
+                                likes: decoration.isLiked ? decoration.likes - 1 : decoration.likes + 1
+                              }
+                            : decoration
+                    )
+                );
             };
 
             const openModal = (type, decoration = null) => {
@@ -858,22 +1051,61 @@
             };
 
             return (
-                <div className="App">
+                <div className="App fade-in">
                     <Header 
                         user={user} 
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
                         onLogin={() => openModal('login')}
                         onLogout={handleLogout}
                         onPublish={() => openModal('publish')}
                     />
                     
-                    <Home 
-                        decorations={filteredDecorations}
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                        filters={filters}
-                        setFilters={setFilters}
-                        onDecorationClick={(decoration) => openModal('detail', decoration)}
+                    <Hero onGetStarted={() => openModal('login')} />
+                    
+                    <CategoriesStrip 
+                        categories={categories}
+                        activeCategory={filters.category}
+                        onCategoryChange={(category) => setFilters({...filters, category})}
                     />
+                    
+                    <main className="main-content">
+                        <div className="container">
+                            <div className="section-header">
+                                <h2 className="section-title">Discover Loops</h2>
+                                <div className="view-controls">
+                                    <div className="view-toggle">
+                                        <button 
+                                            className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                                            onClick={() => setViewMode('grid')}
+                                        >
+                                            ⊞
+                                        </button>
+                                        <button 
+                                            className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
+                                            onClick={() => setViewMode('list')}
+                                        >
+                                            ☰
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <FiltersBar 
+                                filters={filters}
+                                setFilters={setFilters}
+                                cities={cities}
+                                categories={categories}
+                            />
+
+                            <ProductGrid 
+                                decorations={filteredDecorations}
+                                viewMode={viewMode}
+                                onDecorationClick={(decoration) => openModal('detail', decoration)}
+                                onLike={handleLike}
+                            />
+                        </div>
+                    </main>
                     
                     {showModal && (
                         <Modal onClose={() => setShowModal(false)}>
@@ -888,6 +1120,7 @@
                                     decoration={selectedDecoration}
                                     user={user}
                                     onRequest={() => alert('🎉 ¡Solicitud enviada! El Looper será notificado.')}
+                                    onLike={() => handleLike(selectedDecoration.id)}
                                 />
                             )}
                         </Modal>
@@ -895,7 +1128,7 @@
                     
                     {user && (
                         <button 
-                            className="floating-btn"
+                            className="fab"
                             onClick={() => openModal('publish')}
                             title="Loop it! - Publicar decoración"
                         >
@@ -906,8 +1139,8 @@
             );
         }
 
-        // Componente Header
-        function Header({ user, onLogin, onLogout, onPublish }) {
+        // Header Component
+        function Header({ user, searchTerm, setSearchTerm, onLogin, onLogout, onPublish }) {
             return (
                 <header className="header">
                     <div className="container">
@@ -916,6 +1149,20 @@
                                 <span className="logo-icon">🔄</span>
                                 LOOPE
                             </div>
+                            
+                            <div className="nav-center">
+                                <div className="search-container">
+                                    <div className="search-icon">🔍</div>
+                                    <input 
+                                        type="text"
+                                        className="search-input"
+                                        placeholder="Search for amazing decorations..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            
                             <div className="nav-buttons">
                                 {user ? (
                                     <>
@@ -923,17 +1170,22 @@
                                             ✨ Loop it
                                         </button>
                                         <button className="btn btn-secondary">
-                                            👤 {user.name}
-                                            <span style={{fontSize: '10px', opacity: 0.8}}>Looper</span>
+                                            <div className="user-avatar">{user.avatar}</div>
+                                            {user.name}
                                         </button>
                                         <button className="btn btn-secondary" onClick={onLogout}>
-                                            🚪 Salir
+                                            Sign Out
                                         </button>
                                     </>
                                 ) : (
-                                    <button className="btn btn-primary" onClick={onLogin}>
-                                        🚀 Join the Loop
-                                    </button>
+                                    <>
+                                        <button className="btn btn-outline" onClick={onLogin}>
+                                            Sign In
+                                        </button>
+                                        <button className="btn btn-primary" onClick={onLogin}>
+                                            Join the Loop
+                                        </button>
+                                    </>
                                 )}
                             </div>
                         </nav>
@@ -942,99 +1194,131 @@
             );
         }
 
-        // Componente Home
-        function Home({ decorations, searchTerm, setSearchTerm, filters, setFilters, onDecorationClick }) {
+        // Hero Component
+        function Hero({ onGetStarted }) {
             return (
-                <main className="fade-in">
-                    <section className="hero">
-                        <div className="container">
-                            <div className="hero-content">
-                                <h1>Keep celebrations looping</h1>
-                                <p>El marketplace que conecta Loopers para reutilizar decoraciones y crear celebraciones infinitas. Únete al movimiento circular.</p>
-                                
-                                <div className="search-bar">
-                                    <div className="search-icon">🔍</div>
-                                    <input 
-                                        type="text"
-                                        className="search-input"
-                                        placeholder="Buscar decoraciones mágicas..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
+                <section className="hero">
                     <div className="container">
-                        <div className="filters">
-                            <h3>🎯 Encuentra tu decoración perfecta</h3>
-                            <div className="filter-row">
-                                <div className="filter-group">
-                                    <label>Categoría</label>
-                                    <select 
-                                        value={filters.category}
-                                        onChange={(e) => setFilters({...filters, category: e.target.value})}
-                                    >
-                                        <option value="">Todas las categorías</option>
-                                        {categories.map(cat => (
-                                            <option key={cat.value} value={cat.value}>{cat.label}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="filter-group">
-                                    <label>Ciudad</label>
-                                    <select 
-                                        value={filters.city}
-                                        onChange={(e) => setFilters({...filters, city: e.target.value})}
-                                    >
-                                        <option value="">Todas las ciudades</option>
-                                        {cities.map(city => (
-                                            <option key={city} value={city}>{city}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="filter-group">
-                                    <label>Tipo de Loop</label>
-                                    <select 
-                                        value={filters.type}
-                                        onChange={(e) => setFilters({...filters, type: e.target.value})}
-                                    >
-                                        <option value="">Todos los tipos</option>
-                                        <option value="regalo">Gift Loop</option>
-                                        <option value="intercambio">Swap Loop</option>
-                                        <option value="venta">Pay Loop</option>
-                                    </select>
-                                </div>
+                        <div className="hero-content">
+                            <h1>
+                                Keep celebrations <span className="highlight">looping</span>
+                            </h1>
+                            <p>
+                                The marketplace that connects Loopers to reuse decorations and create infinite celebrations. 
+                                Join the circular movement and make every party count.
+                            </p>
+                            <div className="hero-cta">
+                                <button className="btn btn-primary" onClick={onGetStarted}>
+                                    🚀 Start Looping
+                                </button>
+                                <button className="btn btn-outline">
+                                    📖 How it works
+                                </button>
                             </div>
                         </div>
-
-                        <div className="decorations-grid">
-                            {decorations.map(decoration => (
-                                <DecorationCard 
-                                    key={decoration.id}
-                                    decoration={decoration}
-                                    onClick={() => onDecorationClick(decoration)}
-                                />
-                            ))}
-                        </div>
-
-                        {decorations.length === 0 && (
-                            <div style={{textAlign: 'center', padding: '80px 0', color: '#9CA3AF'}}>
-                                <div style={{fontSize: '64px', marginBottom: '24px'}}>🔍</div>
-                                <h3 style={{fontSize: '24px', fontWeight: '700', marginBottom: '12px', color: '#374151'}}>
-                                    No encontramos loops aquí
-                                </h3>
-                                <p style={{fontSize: '16px'}}>Prueba ajustando los filtros de búsqueda</p>
-                            </div>
-                        )}
                     </div>
-                </main>
+                </section>
             );
         }
 
-        // Componente DecorationCard
-        function DecorationCard({ decoration, onClick }) {
+        // Categories Strip Component
+        function CategoriesStrip({ categories, activeCategory, onCategoryChange }) {
+            return (
+                <section className="categories-strip">
+                    <div className="categories-scroll">
+                        {categories.map(category => (
+                            <a
+                                key={category.value}
+                                href="#"
+                                className={`category-pill ${activeCategory === category.value ? 'active' : ''}`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    onCategoryChange(category.value);
+                                }}
+                            >
+                                <span>{category.icon}</span>
+                                {category.label}
+                            </a>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+
+        // Filters Bar Component
+        function FiltersBar({ filters, setFilters, cities, categories }) {
+            return (
+                <div className="filters-bar">
+                    <div className="filters-grid">
+                        <div className="filter-group">
+                            <label>Category</label>
+                            <select 
+                                value={filters.category}
+                                onChange={(e) => setFilters({...filters, category: e.target.value})}
+                            >
+                                {categories.map(cat => (
+                                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="filter-group">
+                            <label>City</label>
+                            <select 
+                                value={filters.city}
+                                onChange={(e) => setFilters({...filters, city: e.target.value})}
+                            >
+                                <option value="">All cities</option>
+                                {cities.map(city => (
+                                    <option key={city} value={city}>{city}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="filter-group">
+                            <label>Loop Type</label>
+                            <select 
+                                value={filters.type}
+                                onChange={(e) => setFilters({...filters, type: e.target.value})}
+                            >
+                                <option value="">All types</option>
+                                <option value="regalo">Gift Loop</option>
+                                <option value="intercambio">Swap Loop</option>
+                                <option value="venta">Pay Loop</option>
+                            </select>
+                        </div>
+                        <div className="filter-group">
+                            <label>Availability</label>
+                            <input 
+                                type="date"
+                                min={new Date().toISOString().split('T')[0]}
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Product Grid Component
+        function ProductGrid({ decorations, viewMode, onDecorationClick, onLike }) {
+            if (decorations.length === 0) {
+                return <EmptyState />;
+            }
+
+            return (
+                <div className={`products-grid ${viewMode === 'list' ? 'products-list' : ''}`}>
+                    {decorations.map(decoration => (
+                        <ProductCard 
+                            key={decoration.id}
+                            decoration={decoration}
+                            onClick={() => onDecorationClick(decoration)}
+                            onLike={() => onLike(decoration.id)}
+                        />
+                    ))}
+                </div>
+            );
+        }
+
+        // Product Card Component
+        function ProductCard({ decoration, onClick, onLike }) {
             const getTypeLabel = (type) => {
                 const labels = {
                     regalo: 'Gift Loop',
@@ -1042,6 +1326,15 @@
                     venta: 'Pay Loop'
                 };
                 return labels[type] || type;
+            };
+
+            const getBadgeClass = (type) => {
+                const classes = {
+                    regalo: 'badge-gift',
+                    intercambio: 'badge-swap',
+                    venta: 'badge-sale'
+                };
+                return classes[type] || 'badge-gift';
             };
 
             const getCategoryIcon = (category) => {
@@ -1057,32 +1350,65 @@
             };
 
             return (
-                <div className="decoration-card" onClick={onClick}>
-                    <div className="decoration-image">
-                        {getCategoryIcon(decoration.category)}
+                <div className="product-card slide-up" onClick={onClick}>
+                    <div className="product-image">
+                        <div className={`product-badge ${getBadgeClass(decoration.type)}`}>
+                            {getTypeLabel(decoration.type)}
+                        </div>
+                        <button 
+                            className="product-heart"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onLike();
+                            }}
+                        >
+                            {decoration.isLiked ? '❤️' : '🤍'}
+                        </button>
+                        <div style={{fontSize: '48px'}}>
+                            {getCategoryIcon(decoration.category)}
+                        </div>
                     </div>
-                    <div className="decoration-content">
-                        <h3 className="decoration-title">{decoration.title}</h3>
-                        <div className="decoration-info">
-                            <span className={`tag ${decoration.type}`}>
-                                {getTypeLabel(decoration.type)}
+                    <div className="product-content">
+                        <h3 className="product-title">{decoration.title}</h3>
+                        <div className="product-meta">
+                            <span className="meta-tag">
+                                {decoration.condition === 'nuevo' ? '✨ New' : '🔄 Used once'}
                             </span>
-                            {decoration.price && (
-                                <span className="tag">${decoration.price.toLocaleString()}</span>
-                            )}
-                            <span className="tag">
-                                {decoration.condition === 'nuevo' ? '✨ Nuevo' : '🔄 Loop usado'}
+                            <span className="meta-tag">
+                                ❤️ {decoration.likes}
                             </span>
                         </div>
-                        <div className="decoration-location">
+                        <div className="product-location">
                             📍 {decoration.location}
+                        </div>
+                        <div className="product-footer">
+                            <div className="product-price">
+                                {decoration.price ? `${decoration.price.toLocaleString()} COP` : 'Free'}
+                            </div>
+                            <div className="product-user">
+                                <div className="user-avatar">
+                                    {decoration.userName.split(' ').map(n => n[0]).join('')}
+                                </div>
+                                {decoration.userName}
+                            </div>
                         </div>
                     </div>
                 </div>
             );
         }
 
-        // Componente Modal
+        // Empty State Component
+        function EmptyState() {
+            return (
+                <div className="empty-state">
+                    <div className="empty-state-icon">🔍</div>
+                    <h3>No loops found here</h3>
+                    <p>Try adjusting your search filters or browse different categories</p>
+                </div>
+            );
+        }
+
+        // Modal Component
         function Modal({ children, onClose }) {
             useEffect(() => {
                 const handleEscape = (e) => {
@@ -1094,7 +1420,7 @@
 
             return (
                 <div className="modal" onClick={onClose}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <div className="modal-content slide-up" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
                             <div></div>
                             <button className="close-btn" onClick={onClose}>✕</button>
@@ -1105,7 +1431,7 @@
             );
         }
 
-        // Componente LoginForm
+        // Login Form Component
         function LoginForm({ onLogin }) {
             const [email, setEmail] = useState('');
             const [password, setPassword] = useState('');
@@ -1123,11 +1449,9 @@
 
             return (
                 <div>
-                    <div className="modal-header">
-                        <h2 className="modal-title">🚀 Join the Loop</h2>
-                    </div>
-                    <p style={{textAlign: 'center', marginBottom: '32px', color: '#6B7280'}}>
-                        Conviértete en un <strong>Looper</strong> y comienza a hacer circular las celebraciones
+                    <h2 className="modal-title">🚀 Join the Loop</h2>
+                    <p style={{textAlign: 'center', marginBottom: '32px', color: 'var(--text-secondary)'}}>
+                        Become a <strong>Looper</strong> and start making celebrations circular
                     </p>
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
@@ -1136,17 +1460,17 @@
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="tu@email.com"
+                                placeholder="your@email.com"
                                 required
                             />
                         </div>
                         <div className="form-group">
-                            <label>Contraseña</label>
+                            <label>Password</label>
                             <input
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Tu contraseña segura"
+                                placeholder="Your secure password"
                                 required
                             />
                         </div>
@@ -1156,7 +1480,7 @@
                     </form>
                     
                     <div className="divider">
-                        <span>o</span>
+                        <span>or</span>
                     </div>
                     
                     <button 
@@ -1170,7 +1494,7 @@
             );
         }
 
-        // Componente PublishForm
+        // Publish Form Component
         function PublishForm({ onPublish }) {
             const [formData, setFormData] = useState({
                 title: '',
@@ -1198,69 +1522,67 @@
 
             return (
                 <div>
-                    <div className="modal-header">
-                        <h2 className="modal-title">✨ Loop it!</h2>
-                    </div>
-                    <p style={{textAlign: 'center', marginBottom: '32px', color: '#6B7280'}}>
-                        Comparte tu decoración y mantén las celebraciones looping
+                    <h2 className="modal-title">✨ Loop it!</h2>
+                    <p style={{textAlign: 'center', marginBottom: '32px', color: 'var(--text-secondary)'}}>
+                        Share your decoration and keep celebrations looping
                     </p>
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label>Título de tu Loop *</label>
+                            <label>Loop Title *</label>
                             <input
                                 type="text"
                                 value={formData.title}
                                 onChange={(e) => handleChange('title', e.target.value)}
-                                placeholder="Ej: Centro de mesa mágico"
+                                placeholder="e.g. Magical centerpiece collection"
                                 required
                             />
                         </div>
 
                         <div className="form-group">
-                            <label>Imagen</label>
+                            <label>Photo</label>
                             <div className="image-upload">
                                 <input type="file" accept="image/*" />
                                 <div>
                                     <div style={{fontSize: '32px', marginBottom: '12px'}}>📸</div>
-                                    <p style={{color: '#8B46FF', fontWeight: '600'}}>Sube una foto mágica</p>
+                                    <p style={{color: '#667eea', fontWeight: '600'}}>Upload a magical photo</p>
                                 </div>
                             </div>
                         </div>
 
                         <div className="form-group">
-                            <label>Categoría *</label>
+                            <label>Category *</label>
                             <select
                                 value={formData.category}
                                 onChange={(e) => handleChange('category', e.target.value)}
                                 required
                             >
-                                <option value="">Selecciona una categoría</option>
-                                {categories.map(cat => (
+                                <option value="">Select a category</option>
+                                {categories.slice(1).map(cat => (
                                     <option key={cat.value} value={cat.value}>{cat.label}</option>
                                 ))}
                             </select>
                         </div>
 
                         <div className="form-group">
-                            <label>Estado del Loop *</label>
+                            <label>Loop Condition *</label>
                             <select
                                 value={formData.condition}
                                 onChange={(e) => handleChange('condition', e.target.value)}
                                 required
                             >
-                                <option value="nuevo">✨ Nuevo</option>
-                                <option value="usado-una-vez">🔄 Loop usado una vez</option>
+                                <option value="nuevo">✨ Brand New</option>
+                                <option value="usado-una-vez">🔄 Used Once</option>
                             </select>
                         </div>
 
                         <div className="form-group">
-                            <label>Ciudad *</label>
+                            <label>City *</label>
                             <select
                                 value={formData.location}
                                 onChange={(e) => handleChange('location', e.target.value)}
                                 required
                             >
-                                <option value="">Selecciona tu ciudad</option>
+                                <option value="">Select your city</option>
                                 {cities.map(city => (
                                     <option key={city} value={city}>{city}</option>
                                 ))}
@@ -1268,7 +1590,7 @@
                         </div>
 
                         <div className="form-group">
-                            <label>Tipo de Loop *</label>
+                            <label>Loop Type *</label>
                             <select
                                 value={formData.type}
                                 onChange={(e) => handleChange('type', e.target.value)}
@@ -1282,7 +1604,7 @@
 
                         {formData.type === 'venta' && (
                             <div className="form-group">
-                                <label>Precio (COP) *</label>
+                                <label>Price (COP) *</label>
                                 <input
                                     type="number"
                                     value={formData.price}
@@ -1294,7 +1616,7 @@
                         )}
 
                         <div className="form-group">
-                            <label>Disponible hasta *</label>
+                            <label>Available Until *</label>
                             <input
                                 type="date"
                                 value={formData.availableUntil}
@@ -1305,11 +1627,11 @@
                         </div>
 
                         <div className="form-group">
-                            <label>Descripción mágica</label>
+                            <label>Magical Description</label>
                             <textarea
                                 value={formData.description}
                                 onChange={(e) => handleChange('description', e.target.value)}
-                                placeholder="Cuenta la historia de tu decoración y cómo puede hacer mágica la próxima celebración..."
+                                placeholder="Tell the story of your decoration and how it can make the next celebration magical..."
                                 rows="4"
                             />
                         </div>
@@ -1322,8 +1644,8 @@
             );
         }
 
-        // Componente DecorationDetail
-        function DecorationDetail({ decoration, user, onRequest }) {
+        // Decoration Detail Component
+        function DecorationDetail({ decoration, user, onRequest, onLike }) {
             const getCategoryIcon = (category) => {
                 const icons = {
                     globos: '🎈',
@@ -1345,65 +1667,99 @@
                 return labels[type] || type;
             };
 
+            const getBadgeClass = (type) => {
+                const classes = {
+                    regalo: 'badge-gift',
+                    intercambio: 'badge-swap',
+                    venta: 'badge-sale'
+                };
+                return classes[type] || 'badge-gift';
+            };
+
             const isOwner = user && user.id === decoration.userId;
 
             return (
                 <div>
-                    <div className="modal-header">
-                        <h2 className="modal-title">{decoration.title}</h2>
-                    </div>
+                    <h2 className="modal-title">{decoration.title}</h2>
                     
-                    <div className="decoration-image" style={{marginBottom: '24px', borderRadius: '16px', height: '160px'}}>
-                        {getCategoryIcon(decoration.category)}
+                    <div className="product-image" style={{marginBottom: '24px', borderRadius: '16px', height: '200px', position: 'relative'}}>
+                        <div className={`product-badge ${getBadgeClass(decoration.type)}`}>
+                            {getTypeLabel(decoration.type)}
+                        </div>
+                        <button 
+                            className="product-heart"
+                            onClick={onLike}
+                        >
+                            {decoration.isLiked ? '❤️' : '🤍'}
+                        </button>
+                        <div style={{fontSize: '64px'}}>
+                            {getCategoryIcon(decoration.category)}
+                        </div>
                     </div>
 
-                    <div className="decoration-info" style={{marginBottom: '24px'}}>
-                        <span className={`tag ${decoration.type}`}>
-                            {getTypeLabel(decoration.type)}
+                    <div className="product-meta" style={{marginBottom: '24px', justifyContent: 'flex-start'}}>
+                        <span className="meta-tag">
+                            {decoration.condition === 'nuevo' ? '✨ New' : '🔄 Used once'}
+                        </span>
+                        <span className="meta-tag">
+                            ❤️ {decoration.likes} likes
                         </span>
                         {decoration.price && (
-                            <span className="tag">${decoration.price.toLocaleString()} COP</span>
+                            <span className="meta-tag">
+                                💰 ${decoration.price.toLocaleString()} COP
+                            </span>
                         )}
-                        <span className="tag">
-                            {decoration.condition === 'nuevo' ? '✨ Nuevo' : '🔄 Loop usado'}
-                        </span>
                     </div>
 
                     <div style={{marginBottom: '24px'}}>
-                        <div className="decoration-location" style={{marginBottom: '16px', fontSize: '16px'}}>
+                        <div className="product-location" style={{marginBottom: '16px', fontSize: '16px'}}>
                             📍 {decoration.location}
                         </div>
                         
-                        <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: '#6B7280'}}>
-                            📅 <span>Disponible hasta: {decoration.availableUntil}</span>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: 'var(--text-muted)'}}>
+                            📅 <span>Available until: {decoration.availableUntil}</span>
                         </div>
                         
-                        <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', color: '#6B7280'}}>
-                            👤 <span>Looper: <strong>{decoration.userName}</strong></span>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', color: 'var(--text-muted)'}}>
+                            <div className="user-avatar">
+                                {decoration.userName.split(' ').map(n => n[0]).join('')}
+                            </div>
+                            <span>Looper: <strong>{decoration.userName}</strong></span>
                         </div>
                     </div>
 
                     {decoration.description && (
                         <div style={{marginBottom: '32px'}}>
-                            <h4 style={{color: '#8B46FF', marginBottom: '12px', fontWeight: '700'}}>Historia del Loop</h4>
-                            <p style={{color: '#6B7280', lineHeight: '1.6', fontSize: '15px'}}>{decoration.description}</p>
+                            <h4 style={{color: '#667eea', marginBottom: '12px', fontWeight: '700'}}>Loop Story</h4>
+                            <p style={{color: 'var(--text-secondary)', lineHeight: '1.6', fontSize: '15px'}}>
+                                {decoration.description}
+                            </p>
                         </div>
                     )}
 
                     {!isOwner && user && (
-                        <button 
-                            className="btn btn-primary" 
-                            style={{width: '100%', padding: '16px', fontSize: '16px'}}
-                            onClick={onRequest}
-                        >
-                            🔄 Join this Loop
-                        </button>
+                        <div style={{display: 'flex', gap: '12px'}}>
+                            <button 
+                                className="btn btn-primary" 
+                                style={{flex: 1, padding: '16px', fontSize: '16px'}}
+                                onClick={onRequest}
+                            >
+                                🔄 Join this Loop
+                            </button>
+                            <button 
+                                className="btn btn-outline" 
+                                style={{padding: '16px'}}
+                                onClick={onLike}
+                            >
+                                {decoration.isLiked ? '❤️' : '🤍'}
+                            </button>
+                        </div>
                     )}
 
                     {!user && (
-                        <div style={{textAlign: 'center', padding: '24px', background: 'rgba(139, 70, 255, 0.05)', borderRadius: '16px', border: '1px solid rgba(139, 70, 255, 0.1)'}}>
-                            <p style={{color: '#8B46FF', marginBottom: '16px', fontWeight: '600'}}>
-                                🚀 Conviértete en Looper para unirte a este Loop
+                        <div style={{textAlign: 'center', padding: '24px', background: 'rgba(102, 126, 234, 0.05)', borderRadius: '16px', border: '1px solid rgba(102, 126, 234, 0.1)'}}>
+                            <p style={{color: '#667eea', marginBottom: '16px', fontWeight: '600'}}>
+                                🚀 Become a Looper to join this Loop
                             </p>
                         </div>
                     )}
@@ -1411,7 +1767,7 @@
             );
         }
 
-        // Renderizar la aplicación
+        // Render the application
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
