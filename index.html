@@ -3,199 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOOPE - Keep celebrations looping</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Primer Impulso - Microcredit for SaaS tools in Latin America</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            --dark-gradient: linear-gradient(135deg, #434343 0%, #000000 100%);
-            --text-primary: #2d3748;
-            --text-secondary: #4a5568;
-            --text-muted: #718096;
-            --bg-light: #f8fafc;
-            --bg-card: #ffffff;
-            --border-light: #e2e8f0;
-            --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-heavy: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-light);
-            color: var(--text-primary);
-            line-height: 1.6;
-            font-weight: 400;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 24px;
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #f8fafc;
+            --text-muted: #cbd5e1;
+            --gradient-1: linear-gradient(135deg, #6366f1, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #10b981, #059669);
+            --gradient-3: linear-gradient(135deg, #f59e0b, #d97706);
         }
 
-        /* Header Styles */
-        .header {
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border-light);
-            padding: 16px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-light);
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
-        
-        .nav {
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 32px;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
+
         .logo {
-            font-family: 'Poppins', sans-serif;
-            font-size: 32px;
-            font-weight: 900;
-            background: var(--primary-gradient);
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        .nav-links {
             display: flex;
+            gap: 2rem;
             align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        
-        .logo:hover {
-            transform: scale(1.05);
-        }
-        
-        .logo-icon {
-            font-size: 28px;
-            animation: rotate 8s linear infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
-        .nav-center {
-            flex: 1;
-            max-width: 600px;
-            margin: 0 40px;
-        }
-
-        .search-container {
-            position: relative;
-            width: 100%;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 14px 20px 14px 50px;
-            border: 2px solid var(--border-light);
-            border-radius: 50px;
-            font-size: 16px;
-            outline: none;
-            background: var(--bg-card);
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-        
-        .search-input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
+        .nav-links a {
             color: var(--text-muted);
-        }
-        
-        .nav-buttons {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: inherit;
-            white-space: nowrap;
-        }
-        
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: var(--shadow-medium);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-heavy);
-        }
-        
-        .btn-secondary {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border: 1px solid var(--border-light);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--bg-light);
-            transform: translateY(-1px);
+            transition: color 0.3s ease;
+            position: relative;
         }
 
-        .btn-outline {
-            background: transparent;
-            color: #667eea;
-            border: 2px solid #667eea;
+        .nav-links a:hover {
+            color: var(--text);
         }
-        
-        .btn-outline:hover {
-            background: var(--primary-gradient);
-            color: white;
-            transform: translateY(-2px);
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         /* Hero Section */
         .hero {
-            background: var(--bg-card);
-            padding: 80px 0 60px;
-            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
             position: relative;
-            overflow: hidden;
+            background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
         }
 
         .hero::before {
@@ -205,1570 +121,631 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(244, 143, 177, 0.05) 100%);
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             pointer-events: none;
         }
 
         .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
             position: relative;
             z-index: 2;
         }
-        
-        .hero h1 {
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(40px, 6vw, 64px);
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 24px;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-        }
 
-        .hero .highlight {
-            background: var(--primary-gradient);
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
-        .hero p {
-            font-size: 20px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 500px;
         }
 
-        .hero-cta {
+        .cta-buttons {
             display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-top: 40px;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        /* Categories Strip */
-        .categories-strip {
-            background: var(--bg-card);
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
-            padding: 20px 0;
-            overflow-x: auto;
-        }
-
-        .categories-scroll {
-            display: flex;
-            gap: 24px;
-            min-width: max-content;
-            padding: 0 24px;
-        }
-
-        .category-pill {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: var(--bg-light);
-            border: 1px solid var(--border-light);
-            border-radius: 50px;
-            color: var(--text-secondary);
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
             text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
             transition: all 0.3s ease;
-            white-space: nowrap;
+            font-size: 1rem;
         }
 
-        .category-pill:hover {
-            background: var(--primary-gradient);
+        .btn-primary {
+            background: var(--gradient-1);
             color: white;
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.6);
         }
 
-        .category-pill.active {
-            background: var(--primary-gradient);
-            color: white;
-            border-color: transparent;
+        .btn-secondary {
+            background: rgba(248, 250, 252, 0.1);
+            color: var(--text);
+            border: 1px solid rgba(248, 250, 252, 0.2);
         }
 
-        /* Main Content */
-        .main-content {
-            padding: 60px 0;
+        .btn-secondary:hover {
+            background: rgba(248, 250, 252, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 500px;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: rgba(248, 250, 252, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(248, 250, 252, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .floating-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-1 {
+            top: 50px;
+            left: 0;
+            width: 280px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+        }
+
+        .card-2 {
+            top: 200px;
+            right: 0;
+            width: 260px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+        }
+
+        .card-3 {
+            bottom: 80px;
+            left: 50px;
+            width: 240px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1));
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 5rem 0;
+            background: rgba(248, 250, 252, 0.02);
+            border-top: 1px solid rgba(248, 250, 252, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background: rgba(248, 250, 252, 0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(248, 250, 252, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 6rem 0;
         }
 
         .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            gap: 20px;
+            text-align: center;
+            margin-bottom: 4rem;
         }
 
         .section-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 32px;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .view-controls {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .view-toggle {
-            display: flex;
-            background: var(--bg-light);
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .view-btn {
-            padding: 8px 12px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-        }
-
-        .view-btn.active {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            box-shadow: var(--shadow-light);
-        }
-
-        /* Filters */
-        .filters-bar {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 40px;
-            box-shadow: var(--shadow-light);
-        }
-
-        .filters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .filter-group label {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .filter-group select,
-        .filter-group input {
-            padding: 12px 16px;
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            font-size: 14px;
-            background: var(--bg-card);
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .filter-group select:focus,
-        .filter-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        /* Product Grid */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .product-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            box-shadow: var(--shadow-light);
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-heavy);
-            border-color: rgba(102, 126, 234, 0.2);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: white;
-        }
-
-        .badge-gift {
-            background: var(--success-gradient);
-        }
-
-        .badge-swap {
-            background: var(--warning-gradient);
-        }
-
-        .badge-sale {
-            background: var(--secondary-gradient);
-        }
-
-        .product-heart {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            color: var(--text-muted);
-            transition: all 0.3s ease;
-        }
-
-        .product-heart:hover {
-            background: var(--secondary-gradient);
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .product-content {
-            padding: 20px;
-        }
-
-        .product-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-
-        .product-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .meta-tag {
-            padding: 4px 8px;
-            background: var(--bg-light);
-            border: 1px solid var(--border-light);
-            border-radius: 6px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .product-location {
-            color: var(--text-muted);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 16px;
-        }
-
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .product-price {
-            font-size: 18px;
-            font-weight: 700;
-            background: var(--primary-gradient);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .product-user {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            font-size: 14px;
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .user-avatar {
-            width: 24px;
-            height: 24px;
-            background: var(--primary-gradient);
-            color: white;
-            border-radius: 50%;
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .problem-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .problem-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .problem-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--gradient-1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            flex-shrink: 0;
+        }
+
+        .problem-text h3 {
+            font-size: 1.25rem;
             font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
-        /* Floating Action Button */
-        .fab {
-            position: fixed;
-            bottom: 32px;
-            right: 32px;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-            font-weight: 700;
-            box-shadow: var(--shadow-heavy);
+        .problem-text p {
+            color: var(--text-muted);
+        }
+
+        /* Solution Section */
+        .solution {
+            padding: 6rem 0;
+            background: rgba(16, 185, 129, 0.02);
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .solution-card {
+            background: rgba(248, 250, 252, 0.02);
+            border: 1px solid rgba(248, 250, 252, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
             transition: all 0.3s ease;
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .fab:hover {
-            transform: scale(1.1);
-            box-shadow: 0 25px 50px -5px rgba(102, 126, 234, 0.4);
-        }
-
-        /* Modal Styles */
-        .modal {
-            position: fixed;
+        .solution-card::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: rgba(45, 55, 72, 0.8);
-            backdrop-filter: blur(8px);
+            height: 4px;
+            background: var(--gradient-2);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.2);
+        }
+
+        .solution-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: var(--gradient-2);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
-            padding: 24px;
+            font-size: 2rem;
         }
 
-        .modal-content {
-            background: var(--bg-card);
+        /* Business Model */
+        .business-model {
+            padding: 6rem 0;
+        }
+
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .model-item {
+            background: rgba(248, 250, 252, 0.02);
+            border: 1px solid rgba(248, 250, 252, 0.1);
             border-radius: 16px;
-            padding: 32px;
-            max-width: 540px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-heavy);
-            position: relative;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .modal-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .close-btn {
-            background: var(--bg-light);
-            border: 1px solid var(--border-light);
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            cursor: pointer;
-            color: var(--text-muted);
-            font-size: 16px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .close-btn:hover {
-            background: var(--secondary-gradient);
-            color: white;
-            border-color: transparent;
-        }
-
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            font-size: 16px;
-            font-family: inherit;
-            background: var(--bg-card);
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .image-upload {
-            border: 2px dashed var(--border-light);
-            border-radius: 12px;
-            padding: 40px;
+            padding: 2rem;
             text-align: center;
-            background: var(--bg-light);
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .image-upload:hover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.05);
-        }
-
-        .image-upload input {
-            display: none;
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 80px 0;
-            color: var(--text-muted);
-        }
-
-        .empty-state-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-        }
-
-        .empty-state h3 {
-            font-size: 24px;
+        .model-amount {
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text-secondary);
+            background: var(--gradient-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
         }
 
-        .empty-state p {
-            font-size: 16px;
+        /* CTA Section */
+        .final-cta {
+            padding: 6rem 0;
+            text-align: center;
+            background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .nav-center {
-                max-width: 400px;
-                margin: 0 20px;
-            }
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            .nav {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .nav-center {
-                order: 2;
-                margin: 0;
-                max-width: none;
-            }
-
-            .nav-buttons {
-                order: 1;
-            }
-
-            .hero {
-                padding: 60px 0 40px;
-            }
-
-            .hero-cta {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .categories-scroll {
-                padding: 0 16px;
-            }
-
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .filters-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .fab {
-                bottom: 24px;
-                right: 24px;
-                width: 56px;
-                height: 56px;
-                font-size: 20px;
-            }
-
-            .modal-content {
-                padding: 24px;
-                margin: 16px;
-            }
-        }
-
-        /* Animations */
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .slide-up {
-            animation: slideUp 0.4s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Utilities */
-        .text-gradient {
-            background: var(--primary-gradient);
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .divider {
+        /* Footer */
+        footer {
+            background: var(--surface);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(248, 250, 252, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(248, 250, 252, 0.1);
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            margin: 32px 0;
+            justify-content: center;
             color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
 
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border-light);
+        .social-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
         }
 
-        .divider span {
-            padding: 0 20px;
-            font-weight: 500;
-            font-size: 14px;
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating-card:nth-child(1) { animation: float 6s ease-in-out infinite; }
+        .floating-card:nth-child(2) { animation: float 6s ease-in-out infinite 2s; }
+        .floating-card:nth-child(3) { animation: float 6s ease-in-out infinite 4s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .problem-grid,
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-visual {
+                height: 300px;
+            }
+
+            .floating-card {
+                position: static;
+                margin-bottom: 1rem;
+                width: 100% !important;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <header>
+        <nav>
+            <div class="logo">Primer Impulso</div>
+            <div class="nav-links">
+                <a href="#problem">Problema</a>
+                <a href="#solution">Solución</a>
+                <a href="#model">Modelo</a>
+                <a href="#contact">Contacto</a>
+            </div>
+        </nav>
+    </header>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        // Sample data - updated for LOOPE
-        const sampleDecorations = [
-            {
-                id: 1,
-                title: "Centro de mesa con flores artificiales premium",
-                category: "centros-mesa",
-                condition: "usado-una-vez",
-                location: "Medellín, Antioquia",
-                type: "regalo",
-                price: null,
-                availableUntil: "2025-08-15",
-                description: "Hermoso centro de mesa usado en boda, en perfecto estado. Ideal para eventos elegantes y sofisticados.",
-                userId: "user1",
-                userName: "María González",
-                createdAt: "2025-07-20",
-                likes: 24,
-                isLiked: false
-            },
-            {
-                id: 2,
-                title: "Globos dorados y blancos de alta calidad",
-                category: "globos",
-                condition: "nuevo",
-                location: "Bogotá, Cundinamarca",
-                type: "intercambio",
-                price: null,
-                availableUntil: "2025-08-01",
-                description: "50 globos dorados y 30 blancos premium, nunca usados. Perfectos para celebraciones especiales.",
-                userId: "user2",
-                userName: "Carlos Ruiz",
-                createdAt: "2025-07-22",
-                likes: 18,
-                isLiked: true
-            },
-            {
-                id: 3,
-                title: "Guirnalda de papel picado mexicano auténtico",
-                category: "guirnaldas",
-                condition: "usado-una-vez",
-                location: "Cali, Valle del Cauca",
-                type: "venta",
-                price: 25000,
-                availableUntil: "2025-08-10",
-                description: "Guirnalda colorida de 10 metros, perfecta para fiestas temáticas. Colores vibrantes y auténticos.",
-                userId: "user3",
-                userName: "Ana López",
-                createdAt: "2025-07-25",
-                likes: 31,
-                isLiked: false
-            },
-            {
-                id: 4,
-                title: "Luces LED de colores con efectos mágicos",
-                category: "luces",
-                condition: "nuevo",
-                location: "Barranquilla, Atlántico",
-                type: "regalo",
-                price: null,
-                availableUntil: "2025-08-20",
-                description: "100 luces LED multicolor con múltiples efectos, perfectas para crear ambiente mágico.",
-                userId: "user4",
-                userName: "Pedro Martínez",
-                createdAt: "2025-07-23",
-                likes: 42,
-                isLiked: true
-            },
-            {
-                id: 5,
-                title: "Manteles de lino beige elegantes premium",
-                category: "manteles",
-                condition: "usado-una-vez",
-                location: "Cartagena, Bolívar",
-                type: "intercambio",
-                price: null,
-                availableUntil: "2025-08-05",
-                description: "Conjunto de 6 manteles de lino premium en tono beige, ideales para eventos elegantes.",
-                userId: "user5",
-                userName: "Sofía Herrera",
-                createdAt: "2025-07-24",
-                likes: 15,
-                isLiked: false
-            },
-            {
-                id: 6,
-                title: "Kit completo decoración temática safari",
-                category: "otros",
-                condition: "nuevo",
-                location: "Bucaramanga, Santander",
-                type: "venta",
-                price: 45000,
-                availableUntil: "2025-08-12",
-                description: "Set completo: animales de papel, hojas tropicales, banderines y más. Todo incluido.",
-                userId: "user6",
-                userName: "Miguel Castro",
-                createdAt: "2025-07-26",
-                likes: 27,
-                isLiked: false
-            }
-        ];
-
-        const categories = [
-            { value: "", label: "Todas las categorías", icon: "🎉" },
-            { value: "globos", label: "Globos", icon: "🎈" },
-            { value: "guirnaldas", label: "Guirnaldas", icon: "🎊" },
-            { value: "centros-mesa", label: "Centros de mesa", icon: "💐" },
-            { value: "manteles", label: "Manteles", icon: "🌸" },
-            { value: "luces", label: "Luces", icon: "✨" },
-            { value: "otros", label: "Otros", icon: "🎁" }
-        ];
-
-        const cities = [
-            "Bogotá, Cundinamarca",
-            "Medellín, Antioquia", 
-            "Cali, Valle del Cauca",
-            "Barranquilla, Atlántico",
-            "Cartagena, Bolívar",
-            "Bucaramanga, Santander"
-        ];
-
-        // Main App Component
-        function App() {
-            const [user, setUser] = useState(null);
-            const [decorations, setDecorations] = useState(sampleDecorations);
-            const [filteredDecorations, setFilteredDecorations] = useState(sampleDecorations);
-            const [showModal, setShowModal] = useState(false);
-            const [modalType, setModalType] = useState('');
-            const [selectedDecoration, setSelectedDecoration] = useState(null);
-            const [searchTerm, setSearchTerm] = useState('');
-            const [filters, setFilters] = useState({
-                category: '',
-                city: '',
-                type: ''
-            });
-            const [viewMode, setViewMode] = useState('grid');
-
-            // Filter decorations
-            useEffect(() => {
-                let filtered = decorations.filter(decoration => {
-                    const matchesSearch = decoration.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                                        decoration.description.toLowerCase().includes(searchTerm.toLowerCase());
-                    const matchesCategory = !filters.category || decoration.category === filters.category;
-                    const matchesCity = !filters.city || decoration.location === filters.city;
-                    const matchesType = !filters.type || decoration.type === filters.type;
-                    
-                    return matchesSearch && matchesCategory && matchesCity && matchesType;
-                });
-                setFilteredDecorations(filtered);
-            }, [decorations, searchTerm, filters]);
-
-            const handleLogin = (email, password) => {
-                const mockUser = {
-                    id: 'user1',
-                    name: 'María González',
-                    email: email,
-                    avatar: 'MG',
-                    isLooper: true
-                };
-                setUser(mockUser);
-                setShowModal(false);
-            };
-
-            const handleLogout = () => {
-                setUser(null);
-            };
-
-            const handlePublishDecoration = (decorationData) => {
-                const newDecoration = {
-                    ...decorationData,
-                    id: Date.now(),
-                    userId: user.id,
-                    userName: user.name,
-                    createdAt: new Date().toISOString().split('T')[0],
-                    likes: 0,
-                    isLiked: false
-                };
-                setDecorations([newDecoration, ...decorations]);
-                setShowModal(false);
-            };
-
-            const handleLike = (decorationId) => {
-                setDecorations(prevDecorations => 
-                    prevDecorations.map(decoration => 
-                        decoration.id === decorationId 
-                            ? { 
-                                ...decoration, 
-                                isLiked: !decoration.isLiked,
-                                likes: decoration.isLiked ? decoration.likes - 1 : decoration.likes + 1
-                              }
-                            : decoration
-                    )
-                );
-            };
-
-            const openModal = (type, decoration = null) => {
-                setModalType(type);
-                setSelectedDecoration(decoration);
-                setShowModal(true);
-            };
-
-            return (
-                <div className="App fade-in">
-                    <Header 
-                        user={user} 
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                        onLogin={() => openModal('login')}
-                        onLogout={handleLogout}
-                        onPublish={() => openModal('publish')}
-                    />
-                    
-                    <Hero onGetStarted={() => openModal('login')} />
-                    
-                    <CategoriesStrip 
-                        categories={categories}
-                        activeCategory={filters.category}
-                        onCategoryChange={(category) => setFilters({...filters, category})}
-                    />
-                    
-                    <main className="main-content">
-                        <div className="container">
-                            <div className="section-header">
-                                <h2 className="section-title">Discover Loops</h2>
-                                <div className="view-controls">
-                                    <div className="view-toggle">
-                                        <button 
-                                            className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
-                                            onClick={() => setViewMode('grid')}
-                                        >
-                                            ⊞
-                                        </button>
-                                        <button 
-                                            className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
-                                            onClick={() => setViewMode('list')}
-                                        >
-                                            ☰
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <FiltersBar 
-                                filters={filters}
-                                setFilters={setFilters}
-                                cities={cities}
-                                categories={categories}
-                            />
-
-                            <ProductGrid 
-                                decorations={filteredDecorations}
-                                viewMode={viewMode}
-                                onDecorationClick={(decoration) => openModal('detail', decoration)}
-                                onLike={handleLike}
-                            />
-                        </div>
-                    </main>
-                    
-                    {showModal && (
-                        <Modal onClose={() => setShowModal(false)}>
-                            {modalType === 'login' && (
-                                <LoginForm onLogin={handleLogin} />
-                            )}
-                            {modalType === 'publish' && user && (
-                                <PublishForm onPublish={handlePublishDecoration} />
-                            )}
-                            {modalType === 'detail' && selectedDecoration && (
-                                <DecorationDetail 
-                                    decoration={selectedDecoration}
-                                    user={user}
-                                    onRequest={() => alert('🎉 ¡Solicitud enviada! El Looper será notificado.')}
-                                    onLike={() => handleLike(selectedDecoration.id)}
-                                />
-                            )}
-                        </Modal>
-                    )}
-                    
-                    {user && (
-                        <button 
-                            className="fab"
-                            onClick={() => openModal('publish')}
-                            title="Loop it! - Publicar decoración"
-                        >
-                            +
-                        </button>
-                    )}
-                </div>
-            );
-        }
-
-        // Header Component
-        function Header({ user, searchTerm, setSearchTerm, onLogin, onLogout, onPublish }) {
-            return (
-                <header className="header">
-                    <div className="container">
-                        <nav className="nav">
-                            <div className="logo">
-                                <span className="logo-icon">🔄</span>
-                                LOOPE
-                            </div>
-                            
-                            <div className="nav-center">
-                                <div className="search-container">
-                                    <div className="search-icon">🔍</div>
-                                    <input 
-                                        type="text"
-                                        className="search-input"
-                                        placeholder="Search for amazing decorations..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            
-                            <div className="nav-buttons">
-                                {user ? (
-                                    <>
-                                        <button className="btn btn-primary" onClick={onPublish}>
-                                            ✨ Loop it
-                                        </button>
-                                        <button className="btn btn-secondary">
-                                            <div className="user-avatar">{user.avatar}</div>
-                                            {user.name}
-                                        </button>
-                                        <button className="btn btn-secondary" onClick={onLogout}>
-                                            Sign Out
-                                        </button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <button className="btn btn-outline" onClick={onLogin}>
-                                            Sign In
-                                        </button>
-                                        <button className="btn btn-primary" onClick={onLogin}>
-                                            Join the Loop
-                                        </button>
-                                    </>
-                                )}
-                            </div>
-                        </nav>
-                    </div>
-                </header>
-            );
-        }
-
-        // Hero Component
-        function Hero({ onGetStarted }) {
-            return (
-                <section className="hero">
-                    <div className="container">
-                        <div className="hero-content">
-                            <h1>
-                                Keep celebrations <span className="highlight">looping</span>
-                            </h1>
-                            <p>
-                                The marketplace that connects Loopers to reuse decorations and create infinite celebrations. 
-                                Join the circular movement and make every party count.
-                            </p>
-                            <div className="hero-cta">
-                                <button className="btn btn-primary" onClick={onGetStarted}>
-                                    🚀 Start Looping
-                                </button>
-                                <button className="btn btn-outline">
-                                    📖 How it works
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            );
-        }
-
-        // Categories Strip Component
-        function CategoriesStrip({ categories, activeCategory, onCategoryChange }) {
-            return (
-                <section className="categories-strip">
-                    <div className="categories-scroll">
-                        {categories.map(category => (
-                            <a
-                                key={category.value}
-                                href="#"
-                                className={`category-pill ${activeCategory === category.value ? 'active' : ''}`}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    onCategoryChange(category.value);
-                                }}
-                            >
-                                <span>{category.icon}</span>
-                                {category.label}
-                            </a>
-                        ))}
-                    </div>
-                </section>
-            );
-        }
-
-        // Filters Bar Component
-        function FiltersBar({ filters, setFilters, cities, categories }) {
-            return (
-                <div className="filters-bar">
-                    <div className="filters-grid">
-                        <div className="filter-group">
-                            <label>Category</label>
-                            <select 
-                                value={filters.category}
-                                onChange={(e) => setFilters({...filters, category: e.target.value})}
-                            >
-                                {categories.map(cat => (
-                                    <option key={cat.value} value={cat.value}>{cat.label}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="filter-group">
-                            <label>City</label>
-                            <select 
-                                value={filters.city}
-                                onChange={(e) => setFilters({...filters, city: e.target.value})}
-                            >
-                                <option value="">All cities</option>
-                                {cities.map(city => (
-                                    <option key={city} value={city}>{city}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="filter-group">
-                            <label>Loop Type</label>
-                            <select 
-                                value={filters.type}
-                                onChange={(e) => setFilters({...filters, type: e.target.value})}
-                            >
-                                <option value="">All types</option>
-                                <option value="regalo">Gift Loop</option>
-                                <option value="intercambio">Swap Loop</option>
-                                <option value="venta">Pay Loop</option>
-                            </select>
-                        </div>
-                        <div className="filter-group">
-                            <label>Availability</label>
-                            <input 
-                                type="date"
-                                min={new Date().toISOString().split('T')[0]}
-                            />
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-
-        // Product Grid Component
-        function ProductGrid({ decorations, viewMode, onDecorationClick, onLike }) {
-            if (decorations.length === 0) {
-                return <EmptyState />;
-            }
-
-            return (
-                <div className={`products-grid ${viewMode === 'list' ? 'products-list' : ''}`}>
-                    {decorations.map(decoration => (
-                        <ProductCard 
-                            key={decoration.id}
-                            decoration={decoration}
-                            onClick={() => onDecorationClick(decoration)}
-                            onLike={() => onLike(decoration.id)}
-                        />
-                    ))}
-                </div>
-            );
-        }
-
-        // Product Card Component
-        function ProductCard({ decoration, onClick, onLike }) {
-            const getTypeLabel = (type) => {
-                const labels = {
-                    regalo: 'Gift Loop',
-                    intercambio: 'Swap Loop',
-                    venta: 'Pay Loop'
-                };
-                return labels[type] || type;
-            };
-
-            const getBadgeClass = (type) => {
-                const classes = {
-                    regalo: 'badge-gift',
-                    intercambio: 'badge-swap',
-                    venta: 'badge-sale'
-                };
-                return classes[type] || 'badge-gift';
-            };
-
-            const getCategoryIcon = (category) => {
-                const icons = {
-                    globos: '🎈',
-                    guirnaldas: '🎊',
-                    'centros-mesa': '💐',
-                    manteles: '🌸',
-                    luces: '✨',
-                    otros: '🎁'
-                };
-                return icons[category] || '🎁';
-            };
-
-            return (
-                <div className="product-card slide-up" onClick={onClick}>
-                    <div className="product-image">
-                        <div className={`product-badge ${getBadgeClass(decoration.type)}`}>
-                            {getTypeLabel(decoration.type)}
-                        </div>
-                        <button 
-                            className="product-heart"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onLike();
-                            }}
-                        >
-                            {decoration.isLiked ? '❤️' : '🤍'}
-                        </button>
-                        <div style={{fontSize: '48px'}}>
-                            {getCategoryIcon(decoration.category)}
-                        </div>
-                    </div>
-                    <div className="product-content">
-                        <h3 className="product-title">{decoration.title}</h3>
-                        <div className="product-meta">
-                            <span className="meta-tag">
-                                {decoration.condition === 'nuevo' ? '✨ New' : '🔄 Used once'}
-                            </span>
-                            <span className="meta-tag">
-                                ❤️ {decoration.likes}
-                            </span>
-                        </div>
-                        <div className="product-location">
-                            📍 {decoration.location}
-                        </div>
-                        <div className="product-footer">
-                            <div className="product-price">
-                                {decoration.price ? `${decoration.price.toLocaleString()} COP` : 'Free'}
-                            </div>
-                            <div className="product-user">
-                                <div className="user-avatar">
-                                    {decoration.userName.split(' ').map(n => n[0]).join('')}
-                                </div>
-                                {decoration.userName}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-
-        // Empty State Component
-        function EmptyState() {
-            return (
-                <div className="empty-state">
-                    <div className="empty-state-icon">🔍</div>
-                    <h3>No loops found here</h3>
-                    <p>Try adjusting your search filters or browse different categories</p>
-                </div>
-            );
-        }
-
-        // Modal Component
-        function Modal({ children, onClose }) {
-            useEffect(() => {
-                const handleEscape = (e) => {
-                    if (e.key === 'Escape') onClose();
-                };
-                document.addEventListener('keydown', handleEscape);
-                return () => document.removeEventListener('keydown', handleEscape);
-            }, [onClose]);
-
-            return (
-                <div className="modal" onClick={onClose}>
-                    <div className="modal-content slide-up" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <div></div>
-                            <button className="close-btn" onClick={onClose}>✕</button>
-                        </div>
-                        {children}
-                    </div>
-                </div>
-            );
-        }
-
-        // Login Form Component
-        function LoginForm({ onLogin }) {
-            const [email, setEmail] = useState('');
-            const [password, setPassword] = useState('');
-
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                if (email && password) {
-                    onLogin(email, password);
-                }
-            };
-
-            const handleGoogleLogin = () => {
-                onLogin('looper@example.com', 'google-auth');
-            };
-
-            return (
-                <div>
-                    <h2 className="modal-title">🚀 Join the Loop</h2>
-                    <p style={{textAlign: 'center', marginBottom: '32px', color: 'var(--text-secondary)'}}>
-                        Become a <strong>Looper</strong> and start making celebrations circular
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Democratizando el acceso a herramientas SaaS</h1>
+                    <p class="hero-subtitle">
+                        Conectamos patrocinadores con talento latinoamericano, eliminando la barrera de $20 que impide acceder a herramientas esenciales como ChatGPT Plus y Canva Pro.
                     </p>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label>Email</label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="your@email.com"
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Your secure password"
-                                required
-                            />
-                        </div>
-                        <button type="submit" className="btn btn-primary" style={{width: '100%', padding: '16px'}}>
-                            ✨ Become a Looper
-                        </button>
-                    </form>
-                    
-                    <div className="divider">
-                        <span>or</span>
+                    <div class="cta-buttons">
+                        <a href="https://app--primer-impulso-4e9900d0.base44.app/" class="btn btn-primary" target="_blank">
+                            <i class="fas fa-rocket"></i>
+                            Ver Demo
+                        </a>
+                        <a href="#solution" class="btn btn-secondary">
+                            <i class="fas fa-play"></i>
+                            Conocer más
+                        </a>
                     </div>
-                    
-                    <button 
-                        className="btn btn-outline" 
-                        style={{width: '100%', padding: '16px'}}
-                        onClick={handleGoogleLogin}
-                    >
-                        🚀 Continue with Google
-                    </button>
                 </div>
-            );
-        }
-
-        // Publish Form Component
-        function PublishForm({ onPublish }) {
-            const [formData, setFormData] = useState({
-                title: '',
-                category: '',
-                condition: 'nuevo',
-                location: '',
-                type: 'regalo',
-                price: '',
-                availableUntil: '',
-                description: ''
-            });
-
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                const publishData = {
-                    ...formData,
-                    price: formData.type === 'venta' ? parseInt(formData.price) || 0 : null
-                };
-                onPublish(publishData);
-            };
-
-            const handleChange = (field, value) => {
-                setFormData({...formData, [field]: value});
-            };
-
-            return (
-                <div>
-                    <h2 className="modal-title">✨ Loop it!</h2>
-                    <p style={{textAlign: 'center', marginBottom: '32px', color: 'var(--text-secondary)'}}>
-                        Share your decoration and keep celebrations looping
-                    </p>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label>Loop Title *</label>
-                            <input
-                                type="text"
-                                value={formData.title}
-                                onChange={(e) => handleChange('title', e.target.value)}
-                                placeholder="e.g. Magical centerpiece collection"
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label>Photo</label>
-                            <div className="image-upload">
-                                <input type="file" accept="image/*" />
-                                <div>
-                                    <div style={{fontSize: '32px', marginBottom: '12px'}}>📸</div>
-                                    <p style={{color: '#667eea', fontWeight: '600'}}>Upload a magical photo</p>
-                                </div>
+                <div class="hero-visual">
+                    <div class="floating-card card-1">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 40px; height: 40px; background: var(--gradient-1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user" style="color: white;"></i>
+                            </div>
+                            <div>
+                                <h4>María González</h4>
+                                <p style="color: var(--text-muted); font-size: 0.9rem;">Emprendedora, Bogotá</p>
                             </div>
                         </div>
-
-                        <div className="form-group">
-                            <label>Category *</label>
-                            <select
-                                value={formData.category}
-                                onChange={(e) => handleChange('category', e.target.value)}
-                                required
-                            >
-                                <option value="">Select a category</option>
-                                {categories.slice(1).map(cat => (
-                                    <option key={cat.value} value={cat.value}>{cat.label}</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label>Loop Condition *</label>
-                            <select
-                                value={formData.condition}
-                                onChange={(e) => handleChange('condition', e.target.value)}
-                                required
-                            >
-                                <option value="nuevo">✨ Brand New</option>
-                                <option value="usado-una-vez">🔄 Used Once</option>
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label>City *</label>
-                            <select
-                                value={formData.location}
-                                onChange={(e) => handleChange('location', e.target.value)}
-                                required
-                            >
-                                <option value="">Select your city</option>
-                                {cities.map(city => (
-                                    <option key={city} value={city}>{city}</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label>Loop Type *</label>
-                            <select
-                                value={formData.type}
-                                onChange={(e) => handleChange('type', e.target.value)}
-                                required
-                            >
-                                <option value="regalo">🎁 Gift Loop</option>
-                                <option value="intercambio">🔄 Swap Loop</option>
-                                <option value="venta">💰 Pay Loop</option>
-                            </select>
-                        </div>
-
-                        {formData.type === 'venta' && (
-                            <div className="form-group">
-                                <label>Price (COP) *</label>
-                                <input
-                                    type="number"
-                                    value={formData.price}
-                                    onChange={(e) => handleChange('price', e.target.value)}
-                                    placeholder="50000"
-                                    required
-                                />
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">"Necesito ChatGPT Plus para mi startup, pero $20/mes es mucho aquí en Colombia"</p>
+                    </div>
+                    <div class="floating-card card-2">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 40px; height: 40px; background: var(--gradient-2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-heart" style="color: white;"></i>
                             </div>
-                        )}
-
-                        <div className="form-group">
-                            <label>Available Until *</label>
-                            <input
-                                type="date"
-                                value={formData.availableUntil}
-                                onChange={(e) => handleChange('availableUntil', e.target.value)}
-                                min={new Date().toISOString().split('T')[0]}
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label>Magical Description</label>
-                            <textarea
-                                value={formData.description}
-                                onChange={(e) => handleChange('description', e.target.value)}
-                                placeholder="Tell the story of your decoration and how it can make the next celebration magical..."
-                                rows="4"
-                            />
-                        </div>
-
-                        <button type="submit" className="btn btn-primary" style={{width: '100%', padding: '16px'}}>
-                            🚀 Loop it now!
-                        </button>
-                    </form>
-                </div>
-            );
-        }
-
-        // Decoration Detail Component
-        function DecorationDetail({ decoration, user, onRequest, onLike }) {
-            const getCategoryIcon = (category) => {
-                const icons = {
-                    globos: '🎈',
-                    guirnaldas: '🎊',
-                    'centros-mesa': '💐',
-                    manteles: '🌸',
-                    luces: '✨',
-                    otros: '🎁'
-                };
-                return icons[category] || '🎁';
-            };
-
-            const getTypeLabel = (type) => {
-                const labels = {
-                    regalo: 'Gift Loop',
-                    intercambio: 'Swap Loop',
-                    venta: 'Pay Loop'
-                };
-                return labels[type] || type;
-            };
-
-            const getBadgeClass = (type) => {
-                const classes = {
-                    regalo: 'badge-gift',
-                    intercambio: 'badge-swap',
-                    venta: 'badge-sale'
-                };
-                return classes[type] || 'badge-gift';
-            };
-
-            const isOwner = user && user.id === decoration.userId;
-
-            return (
-                <div>
-                    <h2 className="modal-title">{decoration.title}</h2>
-                    
-                    <div className="product-image" style={{marginBottom: '24px', borderRadius: '16px', height: '200px', position: 'relative'}}>
-                        <div className={`product-badge ${getBadgeClass(decoration.type)}`}>
-                            {getTypeLabel(decoration.type)}
-                        </div>
-                        <button 
-                            className="product-heart"
-                            onClick={onLike}
-                        >
-                            {decoration.isLiked ? '❤️' : '🤍'}
-                        </button>
-                        <div style={{fontSize: '64px'}}>
-                            {getCategoryIcon(decoration.category)}
-                        </div>
-                    </div>
-
-                    <div className="product-meta" style={{marginBottom: '24px', justifyContent: 'flex-start'}}>
-                        <span className="meta-tag">
-                            {decoration.condition === 'nuevo' ? '✨ New' : '🔄 Used once'}
-                        </span>
-                        <span className="meta-tag">
-                            ❤️ {decoration.likes} likes
-                        </span>
-                        {decoration.price && (
-                            <span className="meta-tag">
-                                💰 ${decoration.price.toLocaleString()} COP
-                            </span>
-                        )}
-                    </div>
-
-                    <div style={{marginBottom: '24px'}}>
-                        <div className="product-location" style={{marginBottom: '16px', fontSize: '16px'}}>
-                            📍 {decoration.location}
-                        </div>
-                        
-                        <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', color: 'var(--text-muted)'}}>
-                            📅 <span>Available until: {decoration.availableUntil}</span>
-                        </div>
-                        
-                        <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', color: 'var(--text-muted)'}}>
-                            <div className="user-avatar">
-                                {decoration.userName.split(' ').map(n => n[0]).join('')}
+                            <div>
+                                <h4>Carlos Investor</h4>
+                                <p style="color: var(--text-muted); font-size: 0.9rem;">Angel Investor, Miami</p>
                             </div>
-                            <span>Looper: <strong>{decoration.userName}</strong></span>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">"Quiero apoyar talento latinoamericano emergente de forma estructurada"</p>
+                    </div>
+                    <div class="floating-card card-3">
+                        <div style="text-align: center;">
+                            <div style="width: 60px; height: 60px; background: var(--gradient-3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                <i class="fas fa-handshake" style="color: white; font-size: 1.5rem;"></i>
+                            </div>
+                            <h4 style="margin-bottom: 0.5rem;">Match Exitoso</h4>
+                            <p style="color: var(--secondary); font-size: 0.9rem;">Conexión establecida</p>
                         </div>
                     </div>
-
-                    {decoration.description && (
-                        <div style={{marginBottom: '32px'}}>
-                            <h4 style={{color: '#667eea', marginBottom: '12px', fontWeight: '700'}}>Loop Story</h4>
-                            <p style={{color: 'var(--text-secondary)', lineHeight: '1.6', fontSize: '15px'}}>
-                                {decoration.description}
-                            </p>
-                        </div>
-                    )}
-
-                    {!isOwner && user && (
-                        <div style={{display: 'flex', gap: '12px'}}>
-                            <button 
-                                className="btn btn-primary" 
-                                style={{flex: 1, padding: '16px', fontSize: '16px'}}
-                                onClick={onRequest}
-                            >
-                                🔄 Join this Loop
-                            </button>
-                            <button 
-                                className="btn btn-outline" 
-                                style={{padding: '16px'}}
-                                onClick={onLike}
-                            >
-                                {decoration.isLiked ? '❤️' : '🤍'}
-                            </button>
-                        </div>
-                    )}
-
-                    {!user && (
-                        <div style={{textAlign: 'center', padding: '24px', background: 'rgba(102, 126, 234, 0.05)', borderRadius: '16px', border: '1px solid rgba(102, 126, 234, 0.1)'}}>
-                            <p style={{color: '#667eea', marginBottom: '16px', fontWeight: '600'}}>
-                                🚀 Become a Looper to join this Loop
-                            </p>
-                        </div>
-                    )}
                 </div>
-            );
-        }
+            </div>
+        </div>
+    </section>
 
-        // Render the application
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
-</body>
-</html>
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">8M+</span>
+                    <span class="stat-label">Emprendedores potenciales en Bogotá</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">$20</span>
+                    <span class="stat-label">Barrera que bloquea el talento</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">30-50%</span>
+                    <span class="stat-label">Descuento en herramientas SaaS</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">$60K</span>
+                    <span class="stat-label">MRR estimado con 1K patrocinios</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="problem" class="problem">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">El Problema Real</h2>
+                <p class="section-subtitle">
+                    Una barrera de $20 separa a millones de talentosos latinoamericanos de las herramientas que necesitan para innovar
+                </p>
+            </div>
+            <div class="problem-grid">
+                <div class="problem-content">
+                    <div class="problem-item">
+                        <div class="problem-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <div class="problem-text">
+                            <h3>Barrera Financiera</h3>
+                            <p>$20 USD representa una inversión significativa en economías latinoamericanas, bloqueando el acceso a herramientas esenciales.</p>
+                        </div>
+                    </div>
+                    <div class="problem-item">
+                        <div class="problem-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="problem-text">
+                            <h3>Talento Sin Herramientas</h3>
+                            <p>Personas brillantes con ideas innovadoras que no pueden acceder a ChatGPT Plus, Canva Pro, o herramientas de productividad.</p>
+                        </div>
+                    </div>
+                    <div class="problem-item">
+                        <div class="problem-icon">
+                            <i class="fas fa-disconnect"></i>
+                        </div>
+                        <div class="problem-text">
+                            <h3>Desconexión de Oportunidades</h3>
+                            <p>Inversionistas y mentores queriendo apoyar talento emergente, pero sin un canal estructurado y confiable.</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="background: rgba(248, 250, 252, 0.02); border: 2px dashed rgba(248, 250, 252, 0.2); border-radius: 20px; padding: 3rem; max-width: 400px; margin: 0 auto;">
+                        <i class="fas fa-lightbulb" style="font-size: 4rem; color: var(--accent); margin-bottom: 2rem;"></i>
+                        <h3 style="margin-bottom: 1rem;">El Insight Clave</h3>
+                        <p style="color: var(--text-muted);">Muchas personas están dispuestas a patrocinar los primeros pasos de un emprendedor si existe una forma transparente y simple de hacerlo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="solution" class="solution">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nuestra Solución</h2>
+                <p class="section-subtitle">
+                    AngelList para micro-patrocinios: conectando apoyo temprano con talento emergente
+                </p>
+            </div>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 style="margin-bottom: 1rem;">Para Emprendedores</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Accede a ChatGPT Plus, Canva Pro y herramientas esenciales. Construye tu perfil y conecta con patrocinadores que creen en tu potencial.</p>
+                    <ul style="text-align: left; color: var(--text-muted); list-style: none;">
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i>Herramientas SaaS gratuitas</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i>Mentorías y networking</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i>Acceso a capital futuro</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 style="margin-bottom: 1rem;">Para Patrocinadores</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Invierte $30/mes en 1-3 emprendedores. Obtén acceso temprano a talento emergente y haz un impacto real con inversiones pequeñas.</p>
+                    <ul style="text-align: left; color: var(--text-muted); list-style: none;">
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i>Pipeline de talento curado</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i>Impacto social measurable</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i>Deal flow exclusivo</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 style="margin-bottom: 1rem;">Para el Ecosistema</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Creamos un nuevo modelo de descubrimiento de talento temprano, democratizando el acceso tanto a herramientas como a capital.</p>
+                    <ul style="text-align: left; color: var(--text-muted); list-style: none;">
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i>Más startups exitosas</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i>Talento sin barreras geográficas</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i>Inversión más inclusiva</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="model" class="business-model">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section
